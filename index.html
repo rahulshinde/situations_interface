@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SIT(UATION) Interface</title>
+	<link rel="stylesheet" href='/css/interface.css'>
+</head>
+<body>
+
+	<section class='ui' id='character_select_container'>
+		<div class='character_group'>
+			<h2>Letters</h2>
+			<button class='character button' data-character='A'>
+				<span class='label'>A</span>
+			</button>
+			<button class='character button' data-character='B'>
+				<span class='label'>B</span>
+			</button>
+			<button class='character button' data-character='C'>
+				<span class='label'>C</span>
+			</button>
+			<button class='character button' data-character='D'>
+				<span class='label'>D</span>
+			</button>
+			<button class='character button' data-character='E'>
+				<span class='label'>E</span>
+			</button>
+			<button class='character button' data-character='F'>
+				<span class='label'>F</span>
+			</button>
+			<button class='character button' data-character='G'>
+				<span class='label'>G</span>
+			</button>
+			<button class='character button' data-character='H'>
+				<span class='label'>H</span>
+			</button>
+			<button class='character button' data-character='I'>
+				<span class='label'>I</span>
+			</button>
+			<button class='character button' data-character='J'>
+				<span class='label'>J</span>
+			</button>
+			<button class='character button' data-character='K'>
+				<span class='label'>K</span>
+			</button>
+			<button class='character button' data-character='L'>
+				<span class='label'>L</span>
+			</button>
+			<button class='character button' data-character='M'>
+				<span class='label'>M</span>
+			</button>
+			<button class='character button' data-character='N'>
+				<span class='label'>N</span>
+			</button>
+			<button class='character button' data-character='O'>
+				<span class='label'>O</span>
+			</button>
+			<button class='character button' data-character='P'>
+				<span class='label'>P</span>
+			</button>
+			<button class='character button' data-character='Q'>
+				<span class='label'>Q</span>
+			</button>
+			<button class='character button' data-character='R'>
+				<span class='label'>R</span>
+			</button>
+			<button class='character button' data-character='S'>
+				<span class='label'>S</span>
+			</button>
+			<button class='character button' data-character='T'>
+				<span class='label'>T</span>
+			</button>
+			<button class='character button' data-character='U'>
+				<span class='label'>U</span>
+			</button>
+			<button class='character button' data-character='V'>
+				<span class='label'>V</span>
+			</button>
+			<button class='character button' data-character='W'>
+				<span class='label'>W</span>
+			</button>
+			<button class='character button' data-character='X'>
+				<span class='label'>X</span>
+			</button>
+			<button class='character button' data-character='Y'>
+				<span class='label'>Y</span>
+			</button>
+			<button class='character button' data-character='Z'>
+				<span class='label'>Z</span>
+			</button>
+		</div>
+		<div class='character_group'>
+			<h2>Numbers</h2>
+			<button class='character button' data-character='0'>
+				<span class='label'>0</span>
+			</button>
+			<button class='character button' data-character='1'>
+				<span class='label'>1</span>
+			</button>
+			<button class='character button' data-character='2'>
+				<span class='label'>2</span>
+			</button>
+			<button class='character button' data-character='3'>
+				<span class='label'>3</span>
+			</button>
+			<button class='character button' data-character='4'>
+				<span class='label'>4</span>
+			</button>
+			<button class='character button' data-character='5'>
+				<span class='label'>5</span>
+			</button>
+			<button class='character button' data-character='6'>
+				<span class='label'>6</span>
+			</button>
+			<button class='character button' data-character='7'>
+				<span class='label'>7</span>
+			</button>
+			<button class='character button' data-character='8'>
+				<span class='label'>8</span>
+			</button>
+			<button class='character button' data-character='9'>
+				<span class='label'>9</span>
+			</button>
+		</div>
+
+		<div class='character_group'>
+			<h2>Symbols</h2>
+			<button class='character button' data-character='('>
+				<span class='label'>(</span>
+			</button>
+			<button class='character button' data-character=')'>
+				<span class='label'>)</span>
+			</button>
+			<button class='character button' data-character='['>
+				<span class='label'>[</span>
+			</button>
+			<button class='character button' data-character=']'>
+				<span class='label'>]</span>
+			</button>
+		</div>
+	</section>
+
+	<section class='ui' id='scene_characters'>
+		<h2>Characters in Scene</h2>
+	</section>
+
+	<section class='ui vertical' id='transform_controls'>
+		<h2>Transform Controls</h2>
+		<button class='button transform_control selected' id='translate'>
+			Translate (T)
+		</button>
+		<button class='button transform_control' id='rotate'>
+			Rotate (R)
+		</button>
+
+		<button class='button transform_control' id='scale'>
+			Scale (S)
+		</button>
+	</section>
+
+	<section class='ui vertical' id='general_controls'>
+		<h2>General Controls</h2>
+		<button class='button' id='toggle_ui'>
+			Toggle UI
+		</button>
+
+		<button class='button' id='export_obj'>
+			Export Obj
+		</button>
+
+		<button class='button' id='export_obj'>
+			Export Image
+		</button>
+	</section>
+
+	<section class='ui vertical' id='background_controls'>
+		<h2>Background Image</h2>
+		<div id='file_upload_wrapper'>
+			<label class='button' for='upload'>Upload File</label>
+			<input type="file" id='upload' accept=".jpg, .jpeg, .png" />
+		</div>
+
+		<h2>Background image style</h2>
+		<button class='button selected background_image_style' id='cover'>
+			Cover
+		</button>
+
+		<button class='button background_image_style' id='contain'>
+			Contain
+		</button>
+	</section>
+
+	<img id='background' src="Situation_Render_01_FUR.jpg">
+
+	<section id='canvas_container'></section>
+
+	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+    
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://unpkg.com/three/build/three.module.js",
+				"three/addons/": "https://unpkg.com/three/examples/jsm/"
+			}
+		}
+	</script>
+
+	<script type="module" src='js/main.js'></script>
+</body>
+</html>
