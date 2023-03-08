@@ -3,9 +3,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
 
-import * as tetherCalculator from './tetherCalculator.js'
 import * as letterBuilder from './letterBuilder.js'
 import * as mergeMesh from './mergeMesh.js'
+import * as ui from './ui.js'
 
 
 const tetherMaterial = new THREE.MeshPhongMaterial( 
@@ -26,6 +26,7 @@ const pointer = new THREE.Vector2();
 const onUpPosition = new THREE.Vector2();
 const onDownPosition = new THREE.Vector2();
 let transformControl;
+let transformingGroup = false;
 
 var letters = [];
 var splineHelperObjects = [];
@@ -84,17 +85,9 @@ export function initScene(){
 
 	document.querySelectorAll('.transform_control').forEach((control) => {
 		control.addEventListener('click', function(e){
-			setTransformMode(e.target.id);
+			ui.setTransformMode(transformControl, e.target.id);
 		})
 	})
-
-	document.querySelectorAll('.background_image_style').forEach((control) => {
-		control.addEventListener('click', function(e){
-			setBackgroundStyle(e.target.id);
-		})
-	})
-
-	document.getElementById('upload').addEventListener('change', readUrl);
 
 	document.getElementById('canvas_container').appendChild( renderer.domElement );
 }
@@ -102,7 +95,7 @@ export function initScene(){
 export function addLetter(letter){
 	let new_letter = letterBuilder.constructLetter(letter, splineWidth, material);
 	scene.add(new_letter.object);
-	createSceneCharacter(new_letter.character, new_letter.object.name);
+	ui.createUiCharacterControl(new_letter.character, new_letter.object.name);
 
 	splineHelperObjects.push({
 		'object': new_letter.object,
@@ -111,35 +104,16 @@ export function addLetter(letter){
 	render();
 }
 
-function createSceneCharacter(character, name){
-	let div = document.createElement("div");
-  div.id = name;
-  div.className = "scene_character";
-  div.innerHTML = character
-	
-	let button = document.createElement("button");
-	button.className = 'delete_character buttonp'
-  div.appendChild(button);
-  button.innerHTML = 'delete'
-  button.addEventListener('click', deleteLetter);
-
-	document.getElementById('scene_characters').appendChild(div);
-}
-
-function deleteLetter(event){
-	let scene_character = event.target.closest('.scene_character');
-
+export function deleteLetter(scene_character){
 	var object = scene.getObjectByName( scene_character.id );
 
 	var newSplineHelperObjects = splineHelperObjects.filter(	splineHelperObject => 
 		splineHelperObject.object != object
 	);
 
-	console.log(newSplineHelperObjects);
 	splineHelperObjects = newSplineHelperObjects;
 	scene.remove(object);
 
-	scene_character.remove();
 	transformControl.detach();
 	render();
 }
@@ -182,7 +156,7 @@ function onPointerMove( event ) {
 
 	raycaster.setFromCamera( pointer, camera );
 
-	if (splineHelperObjects.length > 0){
+	if (splineHelperObjects.length > 0 && !transformingGroup){
 		splineHelperObjects.forEach((objectToAdd)=>{
 			let intersects = raycaster.intersectObjects( objectToAdd.mesh, false );
 			if ( intersects.length > 0 ) {
@@ -192,23 +166,39 @@ function onPointerMove( event ) {
 
 			}
 		})
-		const intersects = raycaster.intersectObjects( splineHelperObjects[0], false );
-		if ( intersects.length > 0 ) {
-
-			const object = intersects[ 0 ].object;
-
-			if ( object !== transformControl.object ) {
-
-				transformControl.attach( s );
-
-			}
-
-		}
 	}
+}
+
+export function addObjectToTransformControlsGroup(){
+	transformControl.detach();
+
+	let group = new THREE.Group();
+	group.name = 'transformGroup'
+
+	let groupedCharacters = document.querySelectorAll('.scene_character.in_group');
+	if (groupedCharacters.length == 0){
+		removeTransformControlsGroup();
+	} else {
+		groupedCharacters.forEach((character) => {
+			group.add(scene.getObjectByName(character.id))
+		});
+		scene.add(group);
+		transformingGroup = true;
+		render();
+
+		transformControl.attach(group);
+	}
+}
+
+export function removeTransformControlsGroup(){
+	let old_group = scene.getObjectByName('transformGroup');
+	scene.remove(old_group);
+	transformingGroup = false;
 }
 
 function setKeyCommand(event){
 	var transform;
+
 	if (event.keyCode === 82){
 		transform = 'rotate';
 	}
@@ -219,13 +209,9 @@ function setKeyCommand(event){
 		transform = 'scale';
 	}
 
-	setTransformMode(transform);
-}
-
-function setTransformMode(mode){
-	transformControl.mode = mode;
-	document.querySelector('.transform_control.selected').classList.remove('selected');
-	document.getElementById(mode).classList.add('selected');
+	if (transform){
+		ui.setTransformMode(transformControl, transform);
+	}
 }
 
 function onWindowResize() {
@@ -243,28 +229,13 @@ function render( time ) {
 	renderer.render( scene, camera );
 }
 
-
-function readUrl(event){
-	if (event.target.files && event.target.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-    	console.log('hi');
-      document.getElementById('background').src = e.target.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  }
-}
-
-function setBackgroundStyle(backgroundStyle){
-	document.querySelector('.background_image_style.selected').classList.remove('selected');
-	document.getElementById(backgroundStyle).classList.add('selected')
-	document.getElementById('background').style.objectFit = backgroundStyle;
-}
-
 function exportObj(){
 	const exporter = new OBJExporter();
-	console.log(scene);
-	const data = exporter.parse( splineHelperObjects[0].object );
+	console.log(splineHelperObjects.map((helperObject) => helperObject.object.children));
+	let data = ''
+	splineHelperObjects.forEach((helperObject) => {
+		data = data + ' seperate ' + exporter.parse(helperObject.object)
+	})
 	saveString( data, 'object.obj' );
 }
 
@@ -273,15 +244,11 @@ link.style.display = 'none';
 document.body.appendChild( link );
 
 function save( blob, filename ) {
-
 	link.href = URL.createObjectURL( blob );
 	link.download = filename;
 	link.click();
-
 }
 
 function saveString( text, filename ) {
-
 	save( new Blob( [ text ], { type: 'text/plain' } ), filename );
-
 }
