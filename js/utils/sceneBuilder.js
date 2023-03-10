@@ -172,7 +172,7 @@ function onPointerMove( event ) {
 export function addObjectToTransformControlsGroup(){
 	transformControl.detach();
 
-	let group = new THREE.Group();
+	let group = new THREE.Object3D();
 	group.name = 'transformGroup'
 
 	let groupedCharacters = document.querySelectorAll('.scene_character.in_group');
@@ -180,7 +180,7 @@ export function addObjectToTransformControlsGroup(){
 		removeTransformControlsGroup();
 	} else {
 		groupedCharacters.forEach((character) => {
-			group.add(scene.getObjectByName(character.id))
+			group.attach(scene.getObjectByName(character.id))
 		});
 		scene.add(group);
 		transformingGroup = true;
