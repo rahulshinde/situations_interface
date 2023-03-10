@@ -13,6 +13,8 @@ export function initUi(){
 		})
 	});
 
+	document.getElementById('remove_image').addEventListener('click', clearBackgroundImage);
+
 	document.getElementById('upload').addEventListener('change', readUrl);
 	document.getElementById('remove_group').addEventListener('click', clearTransformGroup)
 }
@@ -88,6 +90,10 @@ export function setTransformMode(transformControl, mode){
 	transformControl.mode = mode;
 	document.querySelector('.transform_control.selected').classList.remove('selected');
 	document.getElementById(mode).classList.add('selected');
+}
+
+function clearBackgroundImage(){
+	document.getElementById('background').setAttribute('src', '')
 }
 
 function setBackgroundStyle(backgroundStyle){

@@ -1,6 +1,6 @@
 :root{
   /* sizing	*/
-	--margin: 2rem;
+	--margin: 1rem;
 	--margin_bottom: 0.75rem;
 	--ui_padding: 0.5rem;
 	--button_padding: 0.25rem;
@@ -108,7 +108,6 @@ html,body{
 
 #file_upload_wrapper{
 	position: relative;
-	margin-bottom: var(--margin_bottom);
 }
 
 #file_upload_wrapper .button{
