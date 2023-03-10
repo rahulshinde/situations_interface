@@ -71,8 +71,8 @@ export function initScene(){
 
 	} );
 
-	transformControl.translationSnap = 20;
-	transformControl.rotationSnap = 0.7853982;
+	// transformControl.translationSnap = 20;
+	// transformControl.rotationSnap = 0.7853982;
 
 	scene.add( transformControl );
 
