@@ -238,7 +238,7 @@ h2{
 }
 
 #general_controls{
-	top: calc(100% - 10rem - var(--margin));
+	top: calc(100% - 12.5rem - var(--margin));
 	left: var(--margin);
 }
 

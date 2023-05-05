@@ -118,6 +118,23 @@ export function deleteLetter(scene_character){
 	render();
 }
 
+export function toggleGrid(){
+	let grid_toggle = document.getElementById('toggle_grid');
+	grid_toggle.classList.toggle('selected');
+
+	if (grid_toggle.classList.contains('selected')){
+		const size = 200;
+		const divisions = 10;
+	
+		const gridHelper = new THREE.GridHelper( size, divisions )
+		gridHelper.name = 'grid';
+		scene.add( gridHelper );
+	} else {
+		scene.remove(scene.getObjectByName('grid'));
+	}
+
+	render();
+}
 
 function calcLetterPosition(length, index){
 	if (length <= 1){

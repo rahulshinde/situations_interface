@@ -14,6 +14,7 @@ export function initUi(){
 	});
 
 	document.getElementById('remove_image').addEventListener('click', clearBackgroundImage);
+	document.getElementById('toggle_grid').addEventListener('click', sceneBuilder.toggleGrid);
 
 	document.getElementById('upload').addEventListener('change', readUrl);
 	document.getElementById('remove_group').addEventListener('click', clearTransformGroup)
@@ -37,7 +38,7 @@ export function createUiCharacterControl(character, name){
   div.appendChild(group_select);
 
   group_select.addEventListener('click', (e) => {
-		let scene_character = event.target.closest('.scene_character');
+		let scene_character = e.target.closest('.scene_character');
   	addCharacterToTransformGroup(scene_character);
   });
 
