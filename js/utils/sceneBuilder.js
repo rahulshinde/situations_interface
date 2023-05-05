@@ -33,6 +33,7 @@ var splineHelperObjects = [];
 
 var splineWidth = 2;
 var material = new THREE.MeshPhongMaterial( { color: 0xf7d011 } );
+var selected_material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
 
 export function initScene(){
 	camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -82,6 +83,7 @@ export function initScene(){
 	document.addEventListener( 'keyup', setKeyCommand );
 	window.addEventListener( 'resize', onWindowResize );
 	document.getElementById('export_obj').addEventListener( 'click', exportObj );
+	document.getElementById('export_png').addEventListener( 'click', exportPNG );
 
 	document.querySelectorAll('.transform_control').forEach((control) => {
 		control.addEventListener('click', function(e){
@@ -197,7 +199,16 @@ export function addObjectToTransformControlsGroup(){
 		removeTransformControlsGroup();
 	} else {
 		groupedCharacters.forEach((character) => {
-			group.attach(scene.getObjectByName(character.id))
+			let object = scene.getObjectByName(character.id);
+			// filter splineHelperObjects to only include item with object.id matches character.id
+			let helperObject = splineHelperObjects.filter((splineHelperObject) => {
+				return splineHelperObject.object.name == character.id
+			})[0];
+
+			helperObject.mesh.forEach((mesh) => {
+				setMaterialColor(mesh, 0xff0000);
+			});
+			group.attach(object)
 		});
 		scene.add(group);
 		transformingGroup = true;
@@ -211,6 +222,10 @@ export function removeTransformControlsGroup(){
 	let old_group = scene.getObjectByName('transformGroup');
 	scene.remove(old_group);
 	transformingGroup = false;
+}
+
+function setMaterialColor(mesh, color){
+	mesh.material = selected_material;
 }
 
 function setKeyCommand(event){
@@ -268,4 +283,24 @@ function save( blob, filename ) {
 
 function saveString( text, filename ) {
 	save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+}
+
+function exportPNG() {
+	// For screenshots to work with WebGL renderer, preserveDrawingBuffer should be set to true.
+	// open in new window like this
+	// var w = window.open('', '');
+	// w.document.title = "Screenshot";
+	//w.document.body.style.backgroundColor = "red";
+	// var img = new Image();
+
+	// // console.log(renderer.domElement);
+	// // img.src = renderer.domElement.toDataURL();
+	// // w.document.body.appendChild(img);
+	
+	// download file like this.
+	var a = document.createElement('a');
+	render();
+	a.href = renderer.domElement.toDataURL().replace("image/png", "image/octet-stream");
+	a.download = 'canvas.png'
+	a.click();
 }
