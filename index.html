@@ -9,6 +9,10 @@
 <body>
 
 	<section class='ui' id='character_select_container'>
+		<header class="ui_header">
+			<h2>Character Select</h2>
+			<button class="button minimize" @click="toggleMinimize()">-</button>
+		</header>
 		<div class='character_group'>
 			<h2>Letters</h2>
 			<button class='character button' data-character='A'>
@@ -142,12 +146,18 @@
 	</section>
 
 	<section class='ui' id='scene_characters'>
-		<h2>Characters in Scene</h2>
+		<header class="ui_header">
+			<h2>Characters in Scene</h2>
+			<button class="button minimize" @click="toggleMinimize()">-</button>
+		</header>
 		<button class='button' disabled id='remove_group'>Clear Group</button>
 	</section>
 
 	<section class='ui vertical' id='transform_controls'>
-		<h2>Transform Controls</h2>
+		<header class="ui_header">
+			<h2>Transform Controls</h2>
+			<button class="button minimize" @click="toggleMinimize()">-</button>
+		</header>
 		<button class='button transform_control selected' id='translate'>
 			Translate (T)
 		</button>
@@ -161,7 +171,10 @@
 	</section>
 
 	<section class='ui vertical' id='general_controls'>
-		<h2>General Controls</h2>
+		<header class="ui_header">
+			<h2>General Controls</h2>
+			<button class="button minimize" @click="toggleMinimize()">-</button>
+		</header>
 		<button class='button' id='toggle_ui'>
 			Toggle UI
 		</button>
@@ -176,6 +189,10 @@
 	</section>
 
 	<section class='ui vertical' id='background_controls'>
+		<header class="ui_header">
+			<h2>Background</h2>
+			<button class="button minimize" @click="toggleMinimize()">-</button>
+		</header>
 		<h2>Background Image</h2>
 		<div id='file_upload_wrapper'>
 			<label class='button' for='upload'>Upload File</label>
@@ -198,8 +215,8 @@
 	<section id='canvas_container'></section>
 
 	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
-
-    
+	
+	
 	<script type="importmap">
 		{
 			"imports": {
@@ -208,7 +225,9 @@
 			}
 		}
 	</script>
-
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
 	<script type="module" src='js/main.js'></script>
 </body>
 </html>
