@@ -286,21 +286,10 @@ function saveString( text, filename ) {
 }
 
 function exportPNG() {
-	// For screenshots to work with WebGL renderer, preserveDrawingBuffer should be set to true.
-	// open in new window like this
-	// var w = window.open('', '');
-	// w.document.title = "Screenshot";
-	//w.document.body.style.backgroundColor = "red";
-	// var img = new Image();
-
-	// // console.log(renderer.domElement);
-	// // img.src = renderer.domElement.toDataURL();
-	// // w.document.body.appendChild(img);
-	
-	// download file like this.
+	// download file
 	var a = document.createElement('a');
 	render();
 	a.href = renderer.domElement.toDataURL().replace("image/png", "image/octet-stream");
-	a.download = 'canvas.png'
+	a.download = 'situation-export.png'
 	a.click();
 }
