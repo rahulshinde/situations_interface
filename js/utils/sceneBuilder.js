@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
-import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 
 import * as letterBuilder from './letterBuilder.js'
@@ -169,8 +168,14 @@ function onPointerUp( event ) {
 
 	pointerDown = false;
 
-	if ( onDownPosition.distanceTo( onUpPosition ) === 0 ) transformControl.detach();
-
+	if (event.shiftKey){
+		toggleIntersectedInGroup(event);
+	} else if ( onDownPosition.distanceTo( onUpPosition ) === 0 ) {
+		transformControl.detach();
+		if (transformingGroup){
+			removeTransformControlsGroup();
+		}
+	}
 }
 
 function onPointerMove( event ) {
@@ -197,6 +202,28 @@ function onPointerMove( event ) {
 	}
 }
 
+function toggleIntersectedInGroup(event){
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+	raycaster.setFromCamera( pointer, camera );
+
+	if (splineHelperObjects.length > 0){
+		splineHelperObjects.forEach((objectToAdd)=>{
+			let intersects = raycaster.intersectObjects( objectToAdd.mesh, false );
+			if ( intersects.length > 0 ) {
+				let scene_character = document.getElementById(objectToAdd.object.name)
+				if (scene_character.classList.contains('in_group')){
+					ui.removeCharacterToTransformGroup();
+				} else {
+					ui.addCharacterToTransformGroup(scene_character);
+				}
+			}
+		})
+	}
+}
+
+
 export function addObjectToTransformControlsGroup(){
 	transformControl.detach();
 
@@ -215,7 +242,7 @@ export function addObjectToTransformControlsGroup(){
 			})[0];
 
 			helperObject.mesh.forEach((mesh) => {
-				setMaterialColor(mesh, 0xff0000);
+				setSelectedMaterialColor(mesh);
 			});
 			group.attach(object)
 		});
@@ -229,13 +256,50 @@ export function addObjectToTransformControlsGroup(){
 
 export function removeTransformControlsGroup(){
 	let old_group = scene.getObjectByName('transformGroup');
+	// console.log(old_group);
+	old_group.children.forEach((object)=>{
+		ui.disableSceneCharacterGroupControls(document.getElementById(object.name));
+		scene.add(object);
+		object.position.x += old_group.position.x;
+		object.position.y += old_group.position.y;
+		object.position.z += old_group.position.z;
+
+		object.rotation.x += old_group.rotation.x;
+		object.rotation.y += old_group.rotation.y;
+		object.rotation.z += old_group.rotation.z;
+
+		object.scale.x = old_group.scale.x;
+		object.scale.y = old_group.scale.y;
+		object.scale.z = old_group.scale.z;
+
+		let helperObject = splineHelperObjects.filter((splineHelperObject) => {
+			return splineHelperObject.object.name == object.name
+		})[0];
+
+		helperObject.mesh.forEach((mesh) => {
+			mesh.material = material;
+		});
+	});
+	document.getElementById('remove_group').setAttribute('disabled', '');
 	scene.remove(old_group);
 	transformingGroup = false;
 }
 
-function setMaterialColor(mesh, color){
+function setSelectedMaterialColor(mesh){
 	mesh.material = selected_material;
 }
+
+export function setDefaultMaterialColor(character){
+	let helperObject = splineHelperObjects.filter((splineHelperObject) => {
+		return splineHelperObject.object.name == character.id
+	})[0];
+	
+	helperObject.mesh.forEach((mesh) => {
+		mesh.material = material;
+	});
+	render();
+}
+
 
 function setKeyCommand(event){
 	var transform;

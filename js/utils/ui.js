@@ -62,15 +62,16 @@ export function deleteCharacterControl(event){
 	scene_character.remove();
 }
 
-function addCharacterToTransformGroup(scene_character){
+export function addCharacterToTransformGroup(scene_character){
 	scene_character.classList.add('in_group');
 	document.getElementById('remove_group').removeAttribute('disabled');
 	scene_character.querySelector('.group_deselect').removeAttribute('disabled');
 	sceneBuilder.addObjectToTransformControlsGroup();
 }
 
-function removeCharacterFromTransformGroup(scene_character){
-	disableSceneCharacterGroupControls(scene_character)
+export function removeCharacterFromTransformGroup(scene_character){
+	disableSceneCharacterGroupControls(scene_character);
+	sceneBuilder.setDefaultMaterialColor(scene_character);
 	sceneBuilder.addObjectToTransformControlsGroup();
 }
 
