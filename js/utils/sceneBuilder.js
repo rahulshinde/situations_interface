@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 
 import * as letterBuilder from './letterBuilder.js'
 import * as mergeMesh from './mergeMesh.js'
@@ -55,14 +56,22 @@ export function initScene(){
 	cameraControls.update();
 	cameraControls.addEventListener( 'change', render );
 
-	const light = new THREE.AmbientLight( 0xffffff, 0.75 ); // soft white light
+	const light = new THREE.DirectionalLight( 0xffffff, 0.75 ); // soft white light
+	light.position.z = 50;
+	light.position.y = 50;
 	scene.add( light );
 
-	const light1 = new THREE.PointLight( 0xffc539, 0.5, 0 );
+	const light1 = new THREE.PointLight( 0xffe438, 1, 0 );
 	// light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xf4bd82 } ) ) );
 	light1.position.set( 200, 40, 40 );
 
 	scene.add( light1 );
+
+	const light2 = new THREE.PointLight( 0xffe438, 1, 0 );
+	// light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xf4bd82 } ) ) );
+	light1.position.set( -100, -40, -40 );
+
+	scene.add( light2 );
 
 	transformControl = new TransformControls( camera, renderer.domElement );
 	transformControl.addEventListener( 'change', render );
@@ -82,7 +91,7 @@ export function initScene(){
 	document.addEventListener( 'pointermove', onPointerMove );
 	document.addEventListener( 'keyup', setKeyCommand );
 	window.addEventListener( 'resize', onWindowResize );
-	document.getElementById('export_obj').addEventListener( 'click', exportObj );
+	document.getElementById('export_gltf').addEventListener( 'click', exportGLTF );
 	document.getElementById('export_png').addEventListener( 'click', exportPNG );
 
 	document.querySelectorAll('.transform_control').forEach((control) => {
@@ -261,14 +270,27 @@ function render( time ) {
 	renderer.render( scene, camera );
 }
 
-function exportObj(){
-	const exporter = new OBJExporter();
-	console.log(splineHelperObjects.map((helperObject) => helperObject.object.children));
-	let data = ''
-	splineHelperObjects.forEach((helperObject) => {
-		data = data + ' seperate ' + exporter.parse(helperObject.object)
-	})
-	saveString( data, 'object.obj' );
+function exportGLTF(){
+	const exporter = new GLTFExporter();
+
+	// Parse the input and generate the glTF output
+	exporter.parse(
+		scene,
+		// called when the gltf has been generated
+		function ( gltf ) {
+
+			const output = JSON.stringify( gltf, null, 2 );
+			console.log( output );
+			saveString( output, 'scene.gltf' );
+
+		},
+		// called when there is an error in the generation
+		function ( error ) {
+
+			console.log( 'An error happened' );
+
+		}
+	);
 }
 
 const link = document.createElement( 'a' );
