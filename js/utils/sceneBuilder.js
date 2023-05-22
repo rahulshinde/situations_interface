@@ -165,15 +165,17 @@ function onPointerUp( event ) {
 
 	onUpPosition.x = event.clientX;
 	onUpPosition.y = event.clientY;
-
+	
 	pointerDown = false;
-
-	if (event.shiftKey){
-		toggleIntersectedInGroup(event);
-	} else if ( onDownPosition.distanceTo( onUpPosition ) === 0 ) {
-		transformControl.detach();
-		if (transformingGroup){
-			removeTransformControlsGroup();
+	
+	if(event.target.nodeName == 'CANVAS'){
+		if (event.shiftKey){
+			toggleIntersectedInGroup(event);
+		} else if ( onDownPosition.distanceTo( onUpPosition ) === 0 ) {
+			transformControl.detach();
+			if (transformingGroup){
+				ui.clearTransformGroup();
+			}
 		}
 	}
 }
@@ -214,7 +216,7 @@ function toggleIntersectedInGroup(event){
 			if ( intersects.length > 0 ) {
 				let scene_character = document.getElementById(objectToAdd.object.name)
 				if (scene_character.classList.contains('in_group')){
-					ui.removeCharacterToTransformGroup();
+					ui.removeCharacterFromTransformGroup(scene_character);
 				} else {
 					ui.addCharacterToTransformGroup(scene_character);
 				}
@@ -256,7 +258,6 @@ export function addObjectToTransformControlsGroup(){
 
 export function removeTransformControlsGroup(){
 	let old_group = scene.getObjectByName('transformGroup');
-	// console.log(old_group);
 	old_group.children.forEach((object)=>{
 		ui.disableSceneCharacterGroupControls(document.getElementById(object.name));
 		scene.add(object);
@@ -344,7 +345,6 @@ function exportGLTF(){
 		function ( gltf ) {
 
 			const output = JSON.stringify( gltf, null, 2 );
-			console.log( output );
 			saveString( output, 'scene.gltf' );
 
 		},

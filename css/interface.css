@@ -237,12 +237,29 @@ h2{
 #scene_characters{
 	position: fixed;
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
+	overflow: auto;
 	flex-direction: column;
 	left: var(--margin);
 	top: var(--margin);
 	width: 15rem;
+	max-height: 40vh;
 	box-sizing: border-box;
+}
+
+#remove_group{
+	position: sticky;
+	top: 3.25rem;
+	z-index: 10;
+}
+
+#remove_group:disabled{
+	opacity: 1;
+	background-color: #bebebe;
+}
+
+#remove_group{
+	background-color: #fff;
 }
 
 .scene_character{
