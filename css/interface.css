@@ -49,6 +49,11 @@ html,body{
 }
 
 /* General Styles for Overlays */
+
+.center{
+	text-align: center;
+}
+
 .ui{
 	position: fixed;
 	background-color: var(--transparent_white);
@@ -220,6 +225,13 @@ h2{
 	width: 20%;
 	width: 20%;
 	margin: 0.4rem;
+}
+
+#about{
+	position: fixed;
+	width: 28rem;
+	top: var(--margin);
+	left: calc(50% - 14rem);
 }
 
 #scene_characters{
