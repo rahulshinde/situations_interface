@@ -18,6 +18,11 @@ export function initUi(){
 
 	document.getElementById('upload').addEventListener('change', readUrl);
 	document.getElementById('remove_group').addEventListener('click', clearTransformGroup)
+
+	document.getElementById('width').addEventListener('change', updateSplineWidth);
+	document.getElementById('toggle_tether').addEventListener('click', tetherLetters);
+
+	updateSplineWidth();
 }
 
 export function createUiCharacterControl(character, name){
@@ -67,13 +72,12 @@ export function addCharacterToTransformGroup(scene_character){
 	document.getElementById('remove_group').removeAttribute('disabled');
 	scene_character.querySelector('.delete_character').setAttribute('disabled', '');
 	scene_character.querySelector('.group_deselect').removeAttribute('disabled');
-	sceneBuilder.addObjectToTransformControlsGroup();
+	sceneBuilder.addObjectToTransformControlsGroup(scene_character.id);
 }
 
 export function removeCharacterFromTransformGroup(scene_character){
 	disableSceneCharacterGroupControls(scene_character);
-	sceneBuilder.setDefaultMaterialColor(scene_character);
-	sceneBuilder.addObjectToTransformControlsGroup();
+	sceneBuilder.removeObjectFromTransformControlsGroup(scene_character.id, true);
 }
 
 export function disableSceneCharacterGroupControls(scene_character){
@@ -86,10 +90,7 @@ export function disableSceneCharacterGroupControls(scene_character){
 export function clearTransformGroup(){
 
 	document.getElementById('remove_group').setAttribute('disabled', '');
-	document.querySelectorAll('.scene_character.in_group').forEach((scene_character) => {
-		disableSceneCharacterGroupControls(scene_character);
-	});
-	sceneBuilder.addObjectToTransformControlsGroup();
+	sceneBuilder.removeTransformControlsGroup();
 }
 
 export function setTransformMode(transformControl, mode){
@@ -116,4 +117,17 @@ function readUrl(event){
     };
     reader.readAsDataURL(event.target.files[0]);
   }
+}
+
+function updateSplineWidth(e){
+	let width = 2;
+	if (e){
+		width = e.target.value;
+	}
+	document.getElementById('spline_width').innerHTML = width;
+	sceneBuilder.updateSplineWidth(width);
+}
+
+function tetherLetters(){
+	sceneBuilder.buildTethers();
 }

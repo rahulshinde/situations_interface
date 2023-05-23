@@ -4,6 +4,7 @@ import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 
 import * as letterBuilder from './letterBuilder.js'
+import * as tetherCalculator from './tetherCalculator.js'
 import * as mergeMesh from './mergeMesh.js'
 import * as ui from './ui.js'
 
@@ -102,6 +103,10 @@ export function initScene(){
 	document.getElementById('canvas_container').appendChild( renderer.domElement );
 }
 
+export function updateSplineWidth(width){
+	splineWidth = width;
+}
+
 export function addLetter(letter){
 	let new_letter = letterBuilder.constructLetter(letter, splineWidth, material);
 	scene.add(new_letter.object);
@@ -172,9 +177,10 @@ function onPointerUp( event ) {
 		if (event.shiftKey){
 			toggleIntersectedInGroup(event);
 		} else if ( onDownPosition.distanceTo( onUpPosition ) === 0 ) {
-			transformControl.detach();
 			if (transformingGroup){
 				ui.clearTransformGroup();
+			} else{
+				transformControl.detach();
 			}
 		}
 	}
@@ -226,41 +232,97 @@ function toggleIntersectedInGroup(event){
 }
 
 
-export function addObjectToTransformControlsGroup(){
+export function addObjectToTransformControlsGroup(scene_character_id){
 	transformControl.detach();
 
+	let old_group = scene.getObjectByName('transformGroup');
 	let group = new THREE.Object3D();
-	group.name = 'transformGroup'
+	if (old_group){
+		group = old_group
+	}
+	else {
+		group.name = 'transformGroup'
+	}
 
-	let groupedCharacters = document.querySelectorAll('.scene_character.in_group');
-	if (groupedCharacters.length == 0){
-		removeTransformControlsGroup();
-	} else {
-		groupedCharacters.forEach((character) => {
-			let object = scene.getObjectByName(character.id);
-			// filter splineHelperObjects to only include item with object.id matches character.id
-			let helperObject = splineHelperObjects.filter((splineHelperObject) => {
-				return splineHelperObject.object.name == character.id
-			})[0];
-
-			helperObject.mesh.forEach((mesh) => {
-				setSelectedMaterialColor(mesh);
-			});
-			group.attach(object)
-		});
+	
+	let object = scene.getObjectByName(scene_character_id);
+	let helperObject = splineHelperObjects.filter((splineHelperObject) => {
+		return splineHelperObject.object.name == scene_character_id
+	})[0];
+	helperObject.mesh.forEach((mesh) => {
+	setSelectedMaterialColor(mesh);
+	});
+	
+	if (!old_group){
 		scene.add(group);
-		transformingGroup = true;
-		render();
+	}
 
-		transformControl.attach(group);
+	group.attach(object)
+
+	transformingGroup = true;
+	render();
+
+	transformControl.attach(group);
+}
+
+export function removeObjectFromTransformControlsGroup(scene_character_id, render_scene){
+	let old_group = scene.getObjectByName('transformGroup');
+	if(old_group){
+		let object = old_group.children.filter((object)=>{
+			return object.name == scene_character_id
+		})[0];
+			old_group.remove(object);
+			scene.add(object);
+
+			object.position.x += old_group.position.x;
+			object.position.y += old_group.position.y;
+			object.position.z += old_group.position.z;
+
+			object.rotation.x += old_group.rotation.x;
+			object.rotation.y += old_group.rotation.y;
+			object.rotation.z += old_group.rotation.z;
+
+			object.scale.x = old_group.scale.x;
+			object.scale.y = old_group.scale.y;
+			object.scale.z = old_group.scale.z;
+
+		let helperObject = splineHelperObjects.filter((splineHelperObject) => {
+			return splineHelperObject.object.name == object.name
+		})[0];
+
+		helperObject.mesh.forEach((mesh) => {
+			mesh.material = material;
+		});
+
+		if (old_group.children.length == 0){
+			scene.remove(old_group);
+			document.getElementById('remove_group').setAttribute('disabled', '');
+			transformControl.detach();
+
+			transformingGroup = false;
+			render();
+		} else if (render_scene){
+			console.log('rendering');
+			render();
+		}
 	}
 }
 
 export function removeTransformControlsGroup(){
 	let old_group = scene.getObjectByName('transformGroup');
-	old_group.children.forEach((object)=>{
-		ui.disableSceneCharacterGroupControls(document.getElementById(object.name));
-		scene.add(object);
+	
+	document.querySelectorAll('.in_group').forEach((scene_character)=>{
+		ui.disableSceneCharacterGroupControls(document.getElementById(scene_character.id));
+
+		let helperObject = splineHelperObjects.filter((splineHelperObject) => {
+			return splineHelperObject.object.name == scene_character.id
+		})[0];
+
+		helperObject.mesh.forEach((mesh) => {
+			mesh.material = material;
+		});
+
+		let object = helperObject.object;
 		object.position.x += old_group.position.x;
 		object.position.y += old_group.position.y;
 		object.position.z += old_group.position.z;
@@ -273,17 +335,15 @@ export function removeTransformControlsGroup(){
 		object.scale.y = old_group.scale.y;
 		object.scale.z = old_group.scale.z;
 
-		let helperObject = splineHelperObjects.filter((splineHelperObject) => {
-			return splineHelperObject.object.name == object.name
-		})[0];
-
-		helperObject.mesh.forEach((mesh) => {
-			mesh.material = material;
-		});
+		scene.add(object);
 	});
+
 	document.getElementById('remove_group').setAttribute('disabled', '');
-	scene.remove(old_group);
+	transformControl.detach();
+	
 	transformingGroup = false;
+	render();
+	scene.remove(old_group);
 }
 
 function setSelectedMaterialColor(mesh){
@@ -378,4 +438,44 @@ function exportPNG() {
 	a.href = renderer.domElement.toDataURL().replace("image/png", "image/octet-stream");
 	a.download = 'situation-export.png'
 	a.click();
+}
+
+export function buildTethers(){
+	for (var i = 0; i < splineHelperObjects.length - 1; i++) {
+		var exit = splineHelperObjects[i].object;
+		var enter = splineHelperObjects[i + 1].object;
+
+		console.log(exit);
+		console.log(enter);
+
+		var exit1 = tetherCalculator.calculatePosition(exit.exit1, exit.position);
+		var enter1 = tetherCalculator.calculatePosition(enter.enter1, enter.position);
+		var connectorDisplacementA1 = tetherCalculator.calculateDisplacement(exit1, enter1);
+		var connectorDisplacementA2 = tetherCalculator.calculateDisplacement(exit1, enter1);
+
+		addTetherToScene(exit1, enter1, connectorDisplacementA1, connectorDisplacementA2, splineWidth, scene);
+
+		var exit2 = tetherCalculator.calculatePosition(exit.exit2, exit.path.position);
+		var enter2 = tetherCalculator.calculatePosition(enter.enter2, enter.path.position);
+		var connectorDisplacementB1 = tetherCalculator.calculateDisplacement(exit2, enter2);
+		var connectorDisplacementB2 = tetherCalculator.calculateDisplacement(exit2, enter2);
+		
+		addTetherToScene(exit2, enter2, connectorDisplacementB1, connectorDisplacementB2, splineWidth, scene);
+
+	}
+}
+
+function addTetherToScene(exit, enter, connectorDisplacement1, connectorDisplacement2, splineWidth, scene){
+
+	let tether = new THREE.CatmullRomCurve3(
+		[
+			new THREE.Vector3( exit.x, exit.y, exit.z ),		
+			new THREE.Vector3( connectorDisplacement1.x, connectorDisplacement1.y, connectorDisplacement1.z ),		
+			new THREE.Vector3( connectorDisplacement2.x, connectorDisplacement2.y, connectorDisplacement2.z ),		
+			new THREE.Vector3( enter.x, enter.y, enter.z )
+		]
+	)
+	let geometry = new THREE.TubeGeometry( tether, 120, splineWidth, 15, false );
+	let mesh = new THREE.Mesh( geometry, tetherMaterial );
+	scene.add(mesh);
 }

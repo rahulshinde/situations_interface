@@ -192,6 +192,23 @@
 		</button>
 	</section>
 
+	<section class="ui vertical" id="character_controls">
+		<header class="ui_header">
+			<h2>Character Controls</h2>
+			<button class="button minimize" @click="toggleMinimize()">-</button>
+		</header>
+
+		<button class='button' id='toggle_tether'>
+			Toggle Tether
+		</button>
+
+		<div id="character_width" class="vertical">
+			<label for="width">Character Width</label>
+			<input name="width" id="width" type="range" min="1" max="5" value="2"/>
+			<output for="width" id="spline_width"></output>
+		</div>
+	</section>
+
 	<section class='ui vertical' id='background_controls'>
 		<header class="ui_header">
 			<h2>Background</h2>

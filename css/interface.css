@@ -202,6 +202,17 @@ input[type="file"] {
 	overflow: auto;
 }
 
+#character_controls{
+	position: fixed;
+	top: calc(40vh + var(--margin) * 2);
+	left: calc(100% - 20rem - var(--margin));
+	width: 20rem;
+}
+
+#character_width{
+	margin-top: var(--margin_bottom);
+}
+
 .character_group{
 	display: flex;
 	flex-wrap: wrap;
