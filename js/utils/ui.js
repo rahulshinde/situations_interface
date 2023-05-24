@@ -28,18 +28,18 @@ export function initUi(){
 export function createUiCharacterControl(character, name){
 	let div = document.createElement("div");
   div.id = name;
-  div.className = "scene_character vertical";
+  div.className = "scene_character";
   div.innerHTML = character
 	
 	let button = document.createElement("button");
-	button.className = 'delete_character button'
+	button.className = 'delete_character character_button'
   div.appendChild(button);
-  button.innerHTML = 'delete'
+  button.innerHTML = 'x'
   button.addEventListener('click', deleteCharacterControl);
 
   let group_select = document.createElement("button");
-	group_select.className = 'group_select button'
-  group_select.innerHTML = 'group'
+	group_select.className = 'group_select group_button character_button'
+  group_select.innerHTML = ''
   div.appendChild(group_select);
 
   group_select.addEventListener('click', (e) => {
@@ -49,8 +49,8 @@ export function createUiCharacterControl(character, name){
 
   let group_deselect = document.createElement("button");
   group_deselect.setAttribute("disabled", "");
-	group_deselect.className = 'group_deselect button'
-  group_deselect.innerHTML = 'remove from group'
+	group_deselect.className = 'group_deselect group_button character_button'
+  group_deselect.innerHTML = ''
   div.appendChild(group_deselect);
 
   group_deselect.addEventListener('click', (e) => {
@@ -88,7 +88,6 @@ export function disableSceneCharacterGroupControls(scene_character){
 }
 
 export function clearTransformGroup(){
-
 	document.getElementById('remove_group').setAttribute('disabled', '');
 	sceneBuilder.removeTransformControlsGroup();
 }

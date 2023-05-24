@@ -34,7 +34,7 @@ var splineHelperObjects = [];
 
 var splineWidth = 2;
 var material = new THREE.MeshPhongMaterial( { color: 0xf7d011 } );
-var selected_material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
+var selected_material = new THREE.MeshPhongMaterial( { color: 0x0000ff } );
 
 export function initScene(){
 	camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
