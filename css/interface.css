@@ -319,6 +319,7 @@ h2{
 #remove_group{
 	position: sticky;
 	top: 3.25rem;
+	margin-bottom: var(--margin_bottom);
 	z-index: 10;
 }
 
@@ -329,6 +330,12 @@ h2{
 
 #remove_group{
 	background-color: #fff;
+}
+
+#align_letters{
+	position: sticky;
+	top: calc(3.25rem + var(--margin_bottom));
+	z-index: 10;
 }
 
 .scene_character{

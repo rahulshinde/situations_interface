@@ -18,6 +18,7 @@ export function initUi(){
 
 	document.getElementById('upload').addEventListener('change', readUrl);
 	document.getElementById('remove_group').addEventListener('click', clearTransformGroup)
+	document.getElementById('align_letters').addEventListener('click', alignLetters);
 
 	document.getElementById('width').addEventListener('change', updateSplineWidth);
 	document.getElementById('toggle_tether').addEventListener('click', tetherLetters);
@@ -129,4 +130,16 @@ function updateSplineWidth(e){
 
 function tetherLetters(){
 	sceneBuilder.buildTethers();
+}
+
+function alignLetters(){
+	sceneBuilder.alignLetters();
+}
+
+export function enableAlignButton(){
+	document.getElementById('align_letters').removeAttribute('disabled');
+}
+
+export function disableAlignButton(){
+	document.getElementById('align_letters').setAttribute('disabled', '');
 }

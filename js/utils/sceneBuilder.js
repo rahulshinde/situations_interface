@@ -116,6 +116,7 @@ export function addLetter(letter){
 		'object': new_letter.object,
 		'mesh': mergeMesh.getChildMeshes(new_letter.object)
 	});
+	ui.enableAlignButton();
 	render();
 }
 
@@ -149,14 +150,6 @@ export function toggleGrid(){
 	}
 
 	render();
-}
-
-function calcLetterPosition(length, index){
-	if (length <= 1){
-		return 0;
-	}
-
-	return index * 30;
 }
 
 function onPointerDown( event ) {
@@ -234,6 +227,8 @@ function toggleIntersectedInGroup(event){
 
 export function addObjectToTransformControlsGroup(scene_character_id){
 	transformControl.detach();
+	ui.disableAlignButton();
+
 
 	let old_group = scene.getObjectByName('transformGroup');
 	let group = new THREE.Object3D();
@@ -274,6 +269,10 @@ export function removeObjectFromTransformControlsGroup(scene_character_id, rende
 			old_group.remove(object);
 			scene.add(object);
 
+			object.scale.x = object.scale.x * old_group.scale.x;
+			object.scale.y = object.scale.y * old_group.scale.y;
+			object.scale.z = object.scale.z * old_group.scale.z;
+			
 			object.position.x += old_group.position.x;
 			object.position.y += old_group.position.y;
 			object.position.z += old_group.position.z;
@@ -282,9 +281,6 @@ export function removeObjectFromTransformControlsGroup(scene_character_id, rende
 			object.rotation.y += old_group.rotation.y;
 			object.rotation.z += old_group.rotation.z;
 
-			object.scale.x = old_group.scale.x;
-			object.scale.y = old_group.scale.y;
-			object.scale.z = old_group.scale.z;
 
 		let helperObject = splineHelperObjects.filter((splineHelperObject) => {
 			return splineHelperObject.object.name == object.name
@@ -323,6 +319,10 @@ export function removeTransformControlsGroup(){
 		});
 
 		let object = helperObject.object;
+		object.scale.x = object.scale.x * old_group.scale.x;
+		object.scale.y = object.scale.y * old_group.scale.y;
+		object.scale.z = object.scale.z * old_group.scale.z;
+
 		object.position.x += old_group.position.x;
 		object.position.y += old_group.position.y;
 		object.position.z += old_group.position.z;
@@ -331,14 +331,12 @@ export function removeTransformControlsGroup(){
 		object.rotation.y += old_group.rotation.y;
 		object.rotation.z += old_group.rotation.z;
 
-		object.scale.x = old_group.scale.x;
-		object.scale.y = old_group.scale.y;
-		object.scale.z = old_group.scale.z;
 
 		scene.add(object);
 	});
 
 	document.getElementById('remove_group').setAttribute('disabled', '');
+	ui.enableAlignButton();
 	transformControl.detach();
 	
 	transformingGroup = false;
@@ -438,6 +436,37 @@ function exportPNG() {
 	a.href = renderer.domElement.toDataURL().replace("image/png", "image/octet-stream");
 	a.download = 'situation-export.png'
 	a.click();
+}
+
+export function alignLetters(){
+	let total_length = splineHelperObjects.length - 1;
+	let position = total_length * -15;
+
+	splineHelperObjects.forEach((splineHelperObject) => {
+		
+		let object = splineHelperObject.object;
+		object.position.x = position;
+		object.position.y = 0;
+		object.position.z = 0;
+		
+		object.rotation.x = 0;
+		object.rotation.y = 0;
+		object.rotation.z = 0;
+		
+		object.scale.x = 1;
+		object.scale.y = 1;
+		object.scale.z = 1;
+
+    position += 30;
+	});
+}
+
+function calcLetterPosition(length, index){
+	if (length <= 1){
+		return 0;
+	}
+
+	return index * 30;
 }
 
 export function buildTethers(){
