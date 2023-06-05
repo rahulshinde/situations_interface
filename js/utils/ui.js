@@ -54,6 +54,39 @@ export function createUiCharacterControl(character, name){
   group_deselect.innerHTML = ''
   div.appendChild(group_deselect);
 
+	let character_coordinates = document.createElement("div");
+	character_coordinates.className = 'character_coordinates_wrapper'
+
+	let character_position_label = document.createElement("div");
+	character_position_label.className = 'character_label'
+	character_position_label.innerHTML = 'Position'
+
+	let character_position = document.createElement("div");
+	character_position.className = 'character_position'
+
+	let character_rotation_label = document.createElement("div");
+	character_rotation_label.className = 'character_label'
+	character_rotation_label.innerHTML = 'Rotation'
+
+	let character_rotation = document.createElement("div");
+	character_rotation.className = 'character_rotation'
+
+	let character_scale_label = document.createElement("div");
+	character_scale_label.className = 'character_label'
+	character_scale_label.innerHTML = 'Scale'
+
+	let character_scale = document.createElement("div");
+	character_scale.className = 'character_scale'
+
+	character_coordinates.appendChild(character_position_label);
+	character_coordinates.appendChild(character_position);
+	character_coordinates.appendChild(character_rotation_label);
+	character_coordinates.appendChild(character_rotation);
+	character_coordinates.appendChild(character_scale_label);
+	character_coordinates.appendChild(character_scale);
+	
+	div.appendChild(character_coordinates);
+
   group_deselect.addEventListener('click', (e) => {
 		let scene_character = event.target.closest('.scene_character');
   	removeCharacterFromTransformGroup(scene_character);
@@ -142,4 +175,21 @@ export function enableAlignButton(){
 
 export function disableAlignButton(){
 	document.getElementById('align_letters').setAttribute('disabled', '');
+}
+
+export function updateTransformValues(object){
+	let id = object.name;
+	let position = object.position;
+	let rotation = object.rotation;
+	let scale = object.scale;
+
+	console.log(id);
+
+	let character_position = document.getElementById(id).querySelector('.character_position');
+	let character_rotation = document.getElementById(id).querySelector('.character_rotation');
+	let character_scale = document.getElementById(id).querySelector('.character_scale');
+
+	character_position.innerHTML = `${position.x.toFixed(2)}, ${position.y.toFixed(2)}, ${position.z.toFixed(2)}`;
+	character_rotation.innerHTML = `${rotation.x.toFixed(2)}, ${rotation.y.toFixed(2)}, ${rotation.z.toFixed(2)}`;
+	character_scale.innerHTML = `${scale.x.toFixed(2)}, ${scale.y.toFixed(2)}, ${scale.z.toFixed(2)}`;
 }

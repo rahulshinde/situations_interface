@@ -156,8 +156,7 @@ html,body{
 	right: 2rem;
 	width: 1rem;
 	height: 1rem;
-	top: 50%;
-	transform: translateY(-50%);
+	top: 0.5rem;
 	border-radius: 50%;
 	transition: box-shadow ease 0.2s;
 }
@@ -358,4 +357,19 @@ h2{
 #background_controls{
 	top: calc(100% - 17rem - var(--margin));
 	left: calc(100% - 15rem - var(--margin));
+}
+
+.character_coordinates_wrapper{
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: var(--margin_bottom);
+	font-size: 0.65rem;
+}
+
+.character_coordinates_wrapper > div:not(.character_label){
+	width: 60%;
+}
+
+.character_label{
+	width: 40%;
 }

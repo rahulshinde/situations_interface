@@ -130,6 +130,10 @@ export function deleteLetter(scene_character){
 	splineHelperObjects = newSplineHelperObjects;
 	scene.remove(object);
 
+	if (splineHelperObjects.length <= 1) {
+		ui.disableAlignButton();
+	}
+
 	transformControl.detach();
 	render();
 }
@@ -391,6 +395,9 @@ function onWindowResize() {
 function render( time ) {
 	// group.rotation.y = time / 3000;
 	renderer.render( scene, camera );
+	splineHelperObjects.forEach((splineHelperObject) => {
+		ui.updateTransformValues(splineHelperObject.object);
+	});
 }
 
 function exportGLTF(){
