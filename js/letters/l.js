@@ -11,6 +11,7 @@ class LetterL {
 		let cap6 = new THREE.Mesh( sphereGeometry, material );
 		cap1.position.x = -6;
 		cap1.position.y = 15;
+
 		cap2.position.x = 3;
 		cap2.position.y = -10;
 		cap2.position.z = -5;
@@ -95,8 +96,8 @@ class LetterL {
 
 		this.path = letter;
 
-		this.enter1 = [-6, 15, 0];
- 		this.enter2 = [-5, -5, 5];
+		this.enter1 = cap1;
+ 		this.enter2 = cap3;
 
  		this.exit1 = [3, -10, -5]
  		this.exit2 = [12, -5, 0]

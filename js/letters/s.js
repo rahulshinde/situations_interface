@@ -81,8 +81,8 @@ class LetterS {
 
 		this.path = letter;
 
-		this.exit1 = [10, 12, -5];
-		this.exit2 = [12, 5, 5];
+		this.exit1 = cap2;
+		this.exit2 = cap4;
 	}
 }
 

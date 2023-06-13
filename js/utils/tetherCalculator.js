@@ -1,20 +1,29 @@
-export function calculatePosition (origin, transformation){
-	let x = origin[0];
-	let y = origin[1];
-	let z = origin[2];
+import * as THREE from 'three';
+
+export function calculatePosition (origin, object){
+	console.log(origin);
+
+
+	var position = new THREE.Vector3();
+	position.setFromMatrixPosition( origin.matrixWorld );
+	let x = position.x;
+	let y = position.y;
+	let z = position.z;
 
 	return {
-		'x': x + transformation.x, 
-		'y': y + transformation.y,
-		'z': z + transformation.z
+		'x': x, 
+		'y': y,
+		'z': z
 	};
 }
 
 export function calculateDisplacement(exit, enter){
+	let exitPosition = calculatePosition(exit);
+	let enterPosition = calculatePosition(enter);
 	return {
-		'x': randomInteger(exit[0], enter[0]), 
-		'y': randomInteger(exit[1], enter[1]),
-		'z': randomInteger(exit[2], enter[2])
+		'x': randomInteger(exitPosition.x, enterPosition.x), 
+		'y': randomInteger(exitPosition.y, enterPosition.y),
+		'z': randomInteger(exitPosition.z, enterPosition.z)
 	}
 }
 

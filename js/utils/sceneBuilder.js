@@ -498,16 +498,16 @@ export function buildTethers(){
 			var enter = splineHelperObjects[i + 1].enter;
 	
 			
-			var exit1 = tetherCalculator.calculatePosition(exit[0], exitObject.position);
-			var enter1 = tetherCalculator.calculatePosition(enter[0], enterObject.position);
+			var exit1 = tetherCalculator.calculatePosition(exit[0], exitObject);
+			var enter1 = tetherCalculator.calculatePosition(enter[0], enterObject);
 			var connectorDisplacementA1 = tetherCalculator.calculateDisplacement(exit[0], enter[0]);
 			var connectorDisplacementA2 = tetherCalculator.calculateDisplacement(exit[0], enter[0]);
 			
 			
 			addTetherToScene(exit1, enter1, connectorDisplacementA1, connectorDisplacementA2, splineWidth, scene);
 			
-			var exit2 = tetherCalculator.calculatePosition(exit[1], exitObject.position);
-			var enter2 = tetherCalculator.calculatePosition(enter[1], enterObject.position);
+			var exit2 = tetherCalculator.calculatePosition(exit[1], exitObject);
+			var enter2 = tetherCalculator.calculatePosition(enter[1], enterObject);
 			var connectorDisplacementB1 = tetherCalculator.calculateDisplacement(exit[1], enter[1]);
 			var connectorDisplacementB2 = tetherCalculator.calculateDisplacement(exit[1], enter[1]);
 			
