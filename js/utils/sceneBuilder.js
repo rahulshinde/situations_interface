@@ -271,6 +271,8 @@ export function addObjectToTransformControlsGroup(scene_character_id){
 	group.attach(object)
 
 	transformingGroup = true;
+	ui.setTransformMode(transformControl, 'translate');
+	ui.disableScale();
 	render();
 
 	transformControl.attach(group);
@@ -312,9 +314,9 @@ export function removeObjectFromTransformControlsGroup(scene_character_id, rende
 			transformControl.detach();
 
 			transformingGroup = false;
+			ui.enableScale();
 			render();
 		} else if (render_scene){
-			console.log('rendering');
 			render();
 		}
 	}
@@ -356,6 +358,7 @@ export function removeTransformControlsGroup(){
 	transformControl.detach();
 	
 	transformingGroup = false;
+	ui.enableScale();
 	render();
 	scene.remove(old_group);
 }
@@ -385,7 +388,7 @@ function setKeyCommand(event){
 	if (event.keyCode === 84){
 		transform = 'translate';
 	}
-	if (event.keyCode === 83){
+	if (event.keyCode === 83 && !transformingGroup){
 		transform = 'scale';
 	}
 

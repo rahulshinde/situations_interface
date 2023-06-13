@@ -95,6 +95,14 @@ export function createUiCharacterControl(character, name){
 	document.getElementById('scene_characters').appendChild(div);
 }
 
+export function disableScale(){
+	document.getElementById('scale').setAttribute('disabled', '');
+}
+
+export function enableScale(){
+	document.getElementById('scale').removeAttribute('disabled');
+}
+
 export function deleteCharacterControl(event){
 	let scene_character = event.target.closest('.scene_character');
 	sceneBuilder.deleteLetter(scene_character);

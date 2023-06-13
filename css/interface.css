@@ -350,7 +350,7 @@ h2{
 }
 
 #general_controls{
-	top: calc(100% - 12.5rem - var(--margin));
+	top: calc(100% - 10rem - var(--margin));
 	left: var(--margin);
 }
 
@@ -360,8 +360,8 @@ h2{
 }
 
 #background_controls{
-	top: calc(100% - 17rem - var(--margin));
-	left: calc(100% - 15rem - var(--margin));
+	top: calc(100% - 16rem - var(--margin));
+	left: calc(100% - 20rem - var(--margin));
 }
 
 .character_coordinates_wrapper{
