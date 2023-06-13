@@ -12,9 +12,9 @@ export function calculatePosition (origin, transformation){
 
 export function calculateDisplacement(exit, enter){
 	return {
-		'x': randomInteger(exit.x, enter.x), 
-		'y': randomInteger(exit.y, enter.y),
-		'z': randomInteger(exit.z, enter.z)
+		'x': randomInteger(exit[0], enter[0]), 
+		'y': randomInteger(exit[1], enter[1]),
+		'z': randomInteger(exit[2], enter[2])
 	}
 }
 

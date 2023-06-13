@@ -21,7 +21,7 @@ export function initUi(){
 	document.getElementById('align_letters').addEventListener('click', alignLetters);
 
 	document.getElementById('width').addEventListener('change', updateSplineWidth);
-	document.getElementById('toggle_tether').addEventListener('click', tetherLetters);
+	document.getElementById('toggle_tether').addEventListener('click', toggleTether);
 
 	updateSplineWidth();
 }
@@ -161,8 +161,17 @@ function updateSplineWidth(e){
 	sceneBuilder.updateSplineWidth(width);
 }
 
-function tetherLetters(){
-	sceneBuilder.buildTethers();
+function toggleTether(){
+	let tether = document.getElementById('toggle_tether');
+	if (tether.classList.contains('selected')){
+		document.body.classList.remove('tethering');
+		tether.classList.remove('selected');
+		sceneBuilder.removeTethers();
+	} else {
+		document.body.classList.add('tethering');
+		tether.classList.add('selected');
+		sceneBuilder.buildTethers();
+	}
 }
 
 function alignLetters(){

@@ -54,6 +54,11 @@ html,body{
 	text-align: center;
 }
 
+.tethering .ui:not(#character_controls){
+	opacity: 0.5;
+	pointer-events: none;
+}
+
 .ui{
 	position: fixed;
 	background-color: var(--transparent_white);

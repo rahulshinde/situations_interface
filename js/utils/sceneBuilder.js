@@ -31,6 +31,8 @@ let transformingGroup = false;
 
 var letters = [];
 var splineHelperObjects = [];
+var tetherGroup = [];
+var tethered = false;
 
 var splineWidth = 2;
 var material = new THREE.MeshPhongMaterial( { color: 0xf7d011 } );
@@ -112,8 +114,13 @@ export function addLetter(letter){
 	scene.add(new_letter.object);
 	ui.createUiCharacterControl(new_letter.character, new_letter.object.name);
 
+	ui.updateTransformValues(new_letter.object);
+
+
 	splineHelperObjects.push({
 		'object': new_letter.object,
+		'enter': [new_letter.enter1, new_letter.enter2],
+		'exit': [new_letter.exit1, new_letter.exit2],
 		'mesh': mergeMesh.getChildMeshes(new_letter.object)
 	});
 	ui.enableAlignButton();
@@ -186,6 +193,11 @@ function onPointerUp( event ) {
 function onPointerMove( event ) {
 
 	if (pointerDown){
+		if (splineHelperObjects.length > 0){
+			splineHelperObjects.forEach((splineHelperObject) => {
+				ui.updateTransformValues(splineHelperObject.object);
+			});
+		}
 		return;
 	}
 
@@ -194,7 +206,7 @@ function onPointerMove( event ) {
 
 	raycaster.setFromCamera( pointer, camera );
 
-	if (splineHelperObjects.length > 0 && !transformingGroup){
+	if (splineHelperObjects.length > 0 && !transformingGroup && !tethered){
 		splineHelperObjects.forEach((objectToAdd)=>{
 			let intersects = raycaster.intersectObjects( objectToAdd.mesh, false );
 			if ( intersects.length > 0 ) {
@@ -395,9 +407,6 @@ function onWindowResize() {
 function render( time ) {
 	// group.rotation.y = time / 3000;
 	renderer.render( scene, camera );
-	splineHelperObjects.forEach((splineHelperObject) => {
-		ui.updateTransformValues(splineHelperObject.object);
-	});
 }
 
 function exportGLTF(){
@@ -477,32 +486,47 @@ function calcLetterPosition(length, index){
 }
 
 export function buildTethers(){
-	for (var i = 0; i < splineHelperObjects.length - 1; i++) {
-		var exit = splineHelperObjects[i].object;
-		var enter = splineHelperObjects[i + 1].object;
+	if (splineHelperObjects.length > 1){
 
-		console.log(exit);
-		console.log(enter);
-
-		var exit1 = tetherCalculator.calculatePosition(exit.exit1, exit.position);
-		var enter1 = tetherCalculator.calculatePosition(enter.enter1, enter.position);
-		var connectorDisplacementA1 = tetherCalculator.calculateDisplacement(exit1, enter1);
-		var connectorDisplacementA2 = tetherCalculator.calculateDisplacement(exit1, enter1);
-
-		addTetherToScene(exit1, enter1, connectorDisplacementA1, connectorDisplacementA2, splineWidth, scene);
-
-		var exit2 = tetherCalculator.calculatePosition(exit.exit2, exit.path.position);
-		var enter2 = tetherCalculator.calculatePosition(enter.enter2, enter.path.position);
-		var connectorDisplacementB1 = tetherCalculator.calculateDisplacement(exit2, enter2);
-		var connectorDisplacementB2 = tetherCalculator.calculateDisplacement(exit2, enter2);
-		
-		addTetherToScene(exit2, enter2, connectorDisplacementB1, connectorDisplacementB2, splineWidth, scene);
-
+		for (var i = 0; i < splineHelperObjects.length - 1; i++) {
+			var exitObject = splineHelperObjects[i].object;
+			var exit = splineHelperObjects[i].exit;
+			var enterObject = splineHelperObjects[i + 1].object;
+			var enter = splineHelperObjects[i + 1].enter;
+	
+			
+			var exit1 = tetherCalculator.calculatePosition(exit[0], exitObject.position);
+			var enter1 = tetherCalculator.calculatePosition(enter[0], enterObject.position);
+			var connectorDisplacementA1 = tetherCalculator.calculateDisplacement(exit[0], enter[0]);
+			var connectorDisplacementA2 = tetherCalculator.calculateDisplacement(exit[0], enter[0]);
+			
+			
+			addTetherToScene(exit1, enter1, connectorDisplacementA1, connectorDisplacementA2, splineWidth, scene);
+			
+			var exit2 = tetherCalculator.calculatePosition(exit[1], exitObject.position);
+			var enter2 = tetherCalculator.calculatePosition(enter[1], enterObject.position);
+			var connectorDisplacementB1 = tetherCalculator.calculateDisplacement(exit[1], enter[1]);
+			var connectorDisplacementB2 = tetherCalculator.calculateDisplacement(exit[1], enter[1]);
+			
+			addTetherToScene(exit2, enter2, connectorDisplacementB1, connectorDisplacementB2, splineWidth, scene);
+			
+		}
+		tethered = true;
+		transformControl.detach();
 	}
 }
 
-function addTetherToScene(exit, enter, connectorDisplacement1, connectorDisplacement2, splineWidth, scene){
+export function removeTethers(){
+	tetherGroup.forEach((tether) => {
+		scene.remove(tether);
+	});
+	tetherGroup = [];
+	tethered = false;
+	render();
+}
 
+function addTetherToScene(exit, enter, connectorDisplacement1, connectorDisplacement2, splineWidth, scene){
+	
 	let tether = new THREE.CatmullRomCurve3(
 		[
 			new THREE.Vector3( exit.x, exit.y, exit.z ),		
@@ -513,5 +537,7 @@ function addTetherToScene(exit, enter, connectorDisplacement1, connectorDisplace
 	)
 	let geometry = new THREE.TubeGeometry( tether, 120, splineWidth, 15, false );
 	let mesh = new THREE.Mesh( geometry, tetherMaterial );
+	mesh.name = 'tether';
+	tetherGroup.push(mesh);
 	scene.add(mesh);
 }

@@ -88,12 +88,17 @@ var charMap = {
 
 
 export function constructLetter(letter, splineWidth, material){
-	let letterObject = new charMap[letter](splineWidth, material).path
+	let letterInstance = new charMap[letter](splineWidth, material)
+	let letterObject = letterInstance.path
 	let randName = parseInt(Math.ceil(Math.random() * Date.now()).toPrecision(8).toString().replace(".", ""));
 	letterObject.name = 'id' + randName;
 
 	return {
 		'object': letterObject,
-		'character': letter
+		'character': letter,
+		'enter1': letterInstance.enter1,
+		'enter2': letterInstance.enter2,
+		'exit1': letterInstance.exit1,
+		'exit2': letterInstance.exit2
 	}
 }
