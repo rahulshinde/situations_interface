@@ -87,6 +87,11 @@ class LetterJ {
 		letter.add(stroke2);
 
 		this.path = letter;
+		this.enter1 = cap2;
+		this.exit1 = cap1;
+
+		this.enter2 = cap3;
+		this.exit2 = cap5;
 	}
 }
 

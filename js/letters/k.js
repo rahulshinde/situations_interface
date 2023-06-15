@@ -9,11 +9,15 @@ class LetterK {
 		let cap4 = new THREE.Mesh( sphereGeometry, material );
 		let cap5 = new THREE.Mesh( sphereGeometry, material );
 		let cap6 = new THREE.Mesh( sphereGeometry, material );
+		
 		cap1.position.x = -13;
 		cap1.position.y = -10;
+		
 		cap2.position.x = 10;
 		cap2.position.y = 15;
+		
 		cap3.position.z = -5;
+		
 		cap4.position.x = 15;
 		cap4.position.y = -15;
 
@@ -115,6 +119,10 @@ class LetterK {
 		letter.add(stroke2);
 
 		this.path = letter;
+		this.enter1 = cap1;
+		this.exit1 = cap2;
+		this.enter2 = cap3;
+		this.exit2 = cap4;
 	}
 }
 
