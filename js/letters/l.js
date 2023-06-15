@@ -99,8 +99,8 @@ class LetterL {
 		this.enter1 = cap1;
  		this.enter2 = cap3;
 
- 		this.exit1 = [3, -10, -5]
- 		this.exit2 = [12, -5, 0]
+ 		this.exit1 = cap2;
+ 		this.exit2 = cap4;
 	}
 }
 

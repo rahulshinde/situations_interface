@@ -6,6 +6,7 @@ class LetterA {
 		let cap1 = new THREE.Mesh( sphereGeometry, material );
 		let cap2 = new THREE.Mesh( sphereGeometry, material );
 		let cap3 = new THREE.Mesh( sphereGeometry, material );
+		let cap4 = new THREE.Mesh( sphereGeometry, material );
 		cap1.position.x = -10;
 		cap1.position.y = -15;
 		cap2.position.x = 10;
@@ -13,6 +14,10 @@ class LetterA {
 		cap3.position.x = 15;
 		cap3.position.y = 8;
 		cap3.position.z = -5;
+
+		cap4.position.x = 0;
+		cap4.position.y = 16;
+		cap4.position.z = 0;
 
 		// Path 1
 
@@ -94,6 +99,7 @@ class LetterA {
 		stroke2.add( curve3mesh );
 		stroke2.add( line4mesh );
 		stroke2.add( cap3 );
+		stroke2.add( cap4 );
 		
 		let letter = new THREE.Group();
 		
@@ -101,6 +107,12 @@ class LetterA {
 		letter.add(stroke2);
 
 		this.path = letter;
+
+		this.enter1 = cap1;
+		this.enter2 = cap4;
+
+		this.exit1 = cap2;
+		this.exit2 = cap3;
 	}
 }
 
