@@ -11,15 +11,20 @@ class LetterH {
 		let cap6 = new THREE.Mesh( sphereGeometry, material );
 		cap1.position.x = -13;
 		cap1.position.y = -10;
+		
 		cap2.position.x = 10;
 		cap2.position.y = 0;
 		cap2.position.z = 5;
+
 		cap3.position.x = 10;
 		cap3.position.y = 15;
+		
 		cap4.position.x = 10;
 		cap4.position.y = 5;
+		
 		cap5.position.x = 10;
 		cap5.position.y = -5;
+		
 		cap6.position.x = 10;
 		cap6.position.y = -15;
 
@@ -130,6 +135,12 @@ class LetterH {
 		letter.add(stroke2);
 
 		this.path = letter;
+
+		this.enter1 = cap1;
+		this.exit1 = cap2;
+
+		this.enter2 = cap6;
+		this.exit2 = cap3;
 	}
 }
 
