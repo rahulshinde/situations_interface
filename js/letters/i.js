@@ -11,11 +11,13 @@ class LetterI {
 		let cap6 = new THREE.Mesh( sphereGeometry, material );
 		cap1.position.x = -10;
 		cap1.position.y = -15;
+
 		cap2.position.x = 10;
 		cap2.position.y = -15;
 
 		cap3.position.x = 10;
 		cap3.position.y = 15;
+
 		cap4.position.y = -15;
 
 		// Path 1
@@ -104,11 +106,11 @@ class LetterI {
 
 		this.path = letter;
 
-		this.enter1 = [-10, -15, 0];
- 		this.enter2 = [0, -15, 0];
+		this.enter1 = cap1;
+ 		this.enter2 = cap4;
 
- 		this.exit1 = [10, -15, 0];
- 		this.exit2 = [10, 15, 0];
+ 		this.exit1 = cap2;
+ 		this.exit2 = cap3;
 	}
 }
 

@@ -14,6 +14,7 @@ class LetterM {
 
 		cap1.position.x = -4;
 		cap1.position.y = 15;
+
 		cap2.position.x = -12;
 		cap2.position.y = -15;
 
@@ -135,11 +136,11 @@ class LetterM {
 
 		this.path = letter;
 
-		this.enter1 = [-12, -15, 0 ];
- 		this.enter2 = [0, 15, -5];
+		this.enter1 = cap2;
+ 		this.enter2 = cap5;
 
- 		this.exit1 = [12, -15, 0];
- 		this.exit2 = [ 0, -10, 0];
+ 		this.exit1 = cap4;
+ 		this.exit2 = cap8;
 	}
 }
 
