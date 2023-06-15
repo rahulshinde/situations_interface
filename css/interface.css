@@ -259,7 +259,6 @@ input[type="file"] {
 input[type='range']{
 	-webkit-appearance: none;
 	background-color: var(--yellow);
-	box-shadow: var(--box_shadow);
 	width: 100%;
 	border-radius: 0.25rem;
 	height: 0.5rem;

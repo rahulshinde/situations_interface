@@ -7,8 +7,10 @@ class LetterD {
 		let cap2 = new THREE.Mesh( sphereGeometry, material );
 		let cap3 = new THREE.Mesh( sphereGeometry, material );
 		let cap4 = new THREE.Mesh( sphereGeometry, material );
+		let cap5 = new THREE.Mesh( sphereGeometry, material );
 		cap1.position.x = -10;
 		cap1.position.y = 15;
+
 		cap2.position.x = -5;
 		cap2.position.y = -15;
 		
@@ -19,6 +21,8 @@ class LetterD {
 		cap4.position.x = -3;
 		cap4.position.y = -6;
 		cap4.position.z = 5;
+
+		cap5.position.x = -10;
 
 		// Path 1
 
@@ -54,6 +58,7 @@ class LetterD {
 		stroke1.add( curve1mesh );
 		stroke1.add( cap1 );
 		stroke1.add( cap2 );
+		stroke1.add( cap5 );
 
 		// Path 2
 		let curve2 = new THREE.CubicBezierCurve3(
@@ -79,6 +84,12 @@ class LetterD {
 		letter.add(stroke2);
 
 		this.path = letter;
+
+		this.enter1 = cap5;
+		this.enter2 = cap4;
+
+		this.exit1 = cap2;
+		this.exit2 = cap3;
 	}
 }
 
