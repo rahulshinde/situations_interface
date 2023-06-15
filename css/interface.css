@@ -54,8 +54,9 @@ html,body{
 	text-align: center;
 }
 
-.tethering .ui:not(#character_controls){
+.tethering .ui:not(#character_controls):not(#general_controls){
 	opacity: 0.5;
+	filter: blur(8px);
 	pointer-events: none;
 }
 
@@ -68,7 +69,7 @@ html,body{
 	border-radius: var(--border_radius);
 	box-sizing: border-box;
 	z-index: 100;
-	transition: transform ease-in 0.2s;
+	transition: transform ease-in 0.2s, opacity ease-in 0.2s, filter ease-in 0.2s;
 }
 
 .ui.minimized{
@@ -253,6 +254,18 @@ input[type="file"] {
   top: 0px;
   left: 0px;
   font-family: 'FT88-Regular', monospace;
+}
+
+input[type='range']{
+	-webkit-appearance: none;
+	background-color: var(--yellow);
+	box-shadow: var(--box_shadow);
+	width: 100%;
+	border-radius: 0.25rem;
+	height: 0.5rem;
+	margin-top: var(--margin_bottom);
+	margin-bottom: var(--margin_bottom);
+	cursor: pointer;
 }
 
 #character_select_container{
