@@ -21,7 +21,6 @@ class LetterE {
 		cap3.position.y = -12;
 
 		cap4.position.x = -15;
-		cap4.position.y = 0;
 
 		cap5.position.z = -5;
 
@@ -91,11 +90,11 @@ class LetterE {
 
 		this.path = letter;
 
-		this.enter1 = [10, 12, -5 ];
- 		this.enter2 = [ -15, 0, 0];
+		this.enter1 = cap1;
+ 		this.enter2 = cap4;
 
- 		this.exit1 = [10, -12, 0];
- 		this.exit2 = [5, 0, 0];
+ 		this.exit1 = cap3;
+ 		this.exit2 = cap6;
 	}
 }
 
