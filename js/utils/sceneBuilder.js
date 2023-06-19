@@ -153,7 +153,12 @@ export function toggleGrid(){
 		const size = 200;
 		const divisions = 10;
 	
-		const gridHelper = new THREE.GridHelper( size, divisions )
+		const gridHelper = new THREE.GridHelper( 
+			size, 
+			divisions,
+			0xff0000,
+			0xff0000,
+		)
 		gridHelper.name = 'grid';
 		scene.add( gridHelper );
 	} else {

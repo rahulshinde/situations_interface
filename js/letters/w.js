@@ -141,6 +141,12 @@ class LetterW {
 		letter.add(stroke2);
 
 		this.path = letter;
+		
+		this.enter1 = cap2;
+		this.exit1 = cap4;
+
+		this.enter2 = cap6;
+		this.exit2 = cap5;
 	}
 }
 

@@ -92,6 +92,12 @@ class LetterZ {
 		letter.add(stroke2);
 
 		this.path = letter;
+
+		this.enter1 = cap1;
+		this.exit1 = cap2;
+
+		this.enter2 = cap5;
+		this.exit2 = cap4;
 	}
 }
 
