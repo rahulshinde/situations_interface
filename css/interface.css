@@ -372,7 +372,7 @@ h2{
 }
 
 #background_controls{
-	top: calc(100% - 16rem - var(--margin));
+	top: calc(100% - 20rem - var(--margin));
 	left: calc(100% - 20rem - var(--margin));
 }
 

@@ -13,6 +13,12 @@ export function initUi(){
 		})
 	});
 
+	document.querySelectorAll('.background_img').forEach((control) => {
+		control.addEventListener('click', function(e){
+			setBackground(e.target.innerHTML);
+		})
+	});
+
 	document.getElementById('remove_image').addEventListener('click', clearBackgroundImage);
 	document.getElementById('toggle_grid').addEventListener('click', sceneBuilder.toggleGrid);
 
@@ -24,6 +30,10 @@ export function initUi(){
 	document.getElementById('toggle_tether').addEventListener('click', toggleTether);
 
 	updateSplineWidth();
+
+	// random number between 1 and 6
+	let random = Math.floor(Math.random() * 6) + 1;
+	setBackground(random);
 }
 
 export function createUiCharacterControl(character, name){
@@ -144,6 +154,26 @@ function clearBackgroundImage(){
 	document.getElementById('background').setAttribute('src', '')
 }
 
+
+function setBackground(number){
+	let background = document.getElementById('background');
+	document.querySelectorAll('.background_img').forEach((control) => {
+		control.classList.remove('selected');
+	});
+	console.log(document.querySelector(`.background_img:nth-child(1)`));
+	document.querySelector(`.background_img:nth-child(${number})`).classList.add('selected');
+	if (number <= 4){
+		background.src = `img/${number}.jpg`;
+	} else{
+		background.setAttribute('src', '')
+		if (number == 5){
+			background.style.backgroundColor = 'white';
+		} else {
+			background.style.backgroundColor = 'blue';
+		}
+	}
+}
+
 function setBackgroundStyle(backgroundStyle){
 	document.querySelector('.background_image_style.selected').classList.remove('selected');
 	document.getElementById(backgroundStyle).classList.add('selected')
@@ -155,6 +185,7 @@ function readUrl(event){
     var reader = new FileReader();
     reader.onload = function (e) {
       document.getElementById('background').src = e.target.result;
+			document.querySelector('.background_img.selected').classList.remove('selected');
     };
     reader.readAsDataURL(event.target.files[0]);
   }
