@@ -6,6 +6,8 @@ class Number9 {
 		
 		const cap1 = new THREE.Mesh( sphereGeometry, material );
 		const cap2 = new THREE.Mesh( sphereGeometry, material );
+		const cap3 = new THREE.Mesh( sphereGeometry, material );
+		const cap4 = new THREE.Mesh( sphereGeometry, material );
 
 		cap1.position.x = 5;
 		cap1.position.y = 15;
@@ -14,6 +16,10 @@ class Number9 {
 		cap2.position.x = -5;
 		cap2.position.y = -15;
 		cap2.position.z = 0;
+
+		cap3.position.y = 5;
+
+		cap4.position.y = -8;
 
 
 		// Path 1 top
@@ -58,6 +64,8 @@ class Number9 {
 		const stroke2 = new THREE.Group();
 		stroke2.add( curve2mesh );
 		stroke2.add( curve3mesh );
+		stroke2.add( cap3 );
+		stroke2.add( cap4 );
 		
 		const letter = new THREE.Group();
 		
@@ -65,6 +73,12 @@ class Number9 {
 		letter.add(stroke2);
 
 		this.path = letter;
+
+		this.enter1 = cap1;
+		this.exit1 = cap2;
+
+		this.enter2 = cap3;
+		this.exit2 = cap4;
 	}
 }
 

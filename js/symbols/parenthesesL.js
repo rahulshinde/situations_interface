@@ -37,6 +37,12 @@ class SymbolParenthesesL {
 		letter.add(stroke1);
 
 		this.path = letter;
+
+		this.enter1 = cap1;
+		this.exit1 = cap1;
+
+		this.enter2 = cap2;
+		this.exit2 = cap2;
 	}
 }
 
