@@ -169,7 +169,7 @@ function setBackground(number){
 		if (number == 5){
 			background.style.backgroundColor = 'white';
 		} else {
-			background.style.backgroundColor = 'blue';
+			background.style.backgroundColor = 'fuchsia';
 		}
 	}
 }
