@@ -203,6 +203,14 @@ html,body{
 	justify-content: space-between;
 }
 
+.group .align_button{
+	border-color: #00f;
+}
+
+.group .align_button img{
+	filter: invert(8%) sepia(98%) saturate(7479%) hue-rotate(248deg) brightness(99%) contrast(141%);
+}
+
 .button.align_button{
 	display: block;
 	width: 25%;

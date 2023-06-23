@@ -129,6 +129,7 @@ export function deleteCharacterControl(event){
 
 export function addCharacterToTransformGroup(scene_character){
 	scene_character.classList.add('in_group');
+	document.getElementById('scene_characters').classList.add('group');
 	document.getElementById('remove_group').removeAttribute('disabled');
 	scene_character.querySelector('.delete_character').setAttribute('disabled', '');
 	scene_character.querySelector('.group_deselect').removeAttribute('disabled');
@@ -144,10 +145,11 @@ export function disableSceneCharacterGroupControls(scene_character){
 	scene_character.classList.remove('in_group');
 	scene_character.querySelector('.group_deselect').setAttribute('disabled', '');
 	scene_character.querySelector('.delete_character').removeAttribute('disabled');
-
+	
 }
 
 export function clearTransformGroup(){
+	document.getElementById('scene_characters').classList.remove('group');
 	document.getElementById('remove_group').setAttribute('disabled', '');
 	sceneBuilder.removeTransformControlsGroup();
 }
@@ -222,7 +224,6 @@ function toggleTether(){
 }
 
 function alignLetters(orientation){
-	console.log(orientation);
 	sceneBuilder.alignLetters(orientation);
 }
 

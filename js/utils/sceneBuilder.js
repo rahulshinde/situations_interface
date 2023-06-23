@@ -316,6 +316,7 @@ export function removeObjectFromTransformControlsGroup(scene_character_id, rende
 		if (old_group.children.length == 0){
 			scene.remove(old_group);
 			document.getElementById('remove_group').setAttribute('disabled', '');
+			document.getElementById('scene_characters').classList.remove('group');
 			transformControl.detach();
 
 			transformingGroup = false;
@@ -330,12 +331,16 @@ export function removeObjectFromTransformControlsGroup(scene_character_id, rende
 export function removeTransformControlsGroup(){
 	let old_group = scene.getObjectByName('transformGroup');
 	
-	document.querySelectorAll('.in_group').forEach((scene_character)=>{
+	document.querySelectorAll('.in_group').forEach((scene_character, index)=>{
 		ui.disableSceneCharacterGroupControls(document.getElementById(scene_character.id));
 
 		let helperObject = splineHelperObjects.filter((splineHelperObject) => {
 			return splineHelperObject.object.name == scene_character.id
 		})[0];
+
+
+		let groupObject = old_group.children[0].children[index];
+
 
 		helperObject.mesh.forEach((mesh) => {
 			mesh.material = material;
@@ -343,13 +348,13 @@ export function removeTransformControlsGroup(){
 
 		let object = helperObject.object;
 
-		object.position.x += old_group.position.x;
-		object.position.y += old_group.position.y;
-		object.position.z += old_group.position.z;
+		object.position.x = groupObject.position.x;
+		object.position.y = groupObject.position.y;
+		object.position.z = groupObject.position.z;
 
-		object.rotation.x += old_group.rotation.x;
-		object.rotation.y += old_group.rotation.y;
-		object.rotation.z += old_group.rotation.z;
+		object.rotation.x = groupObject.rotation.x;
+		object.rotation.y = groupObject.rotation.y;
+		object.rotation.z = groupObject.rotation.z;
 
 
 		scene.add(object);
