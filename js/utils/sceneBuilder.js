@@ -248,7 +248,7 @@ function toggleIntersectedInGroup(event){
 
 export function addObjectToTransformControlsGroup(scene_character_id){
 	transformControl.detach();
-	ui.disableAlignButton();
+	// ui.disableAlignButton();
 
 
 	let old_group = scene.getObjectByName('transformGroup');
@@ -342,9 +342,6 @@ export function removeTransformControlsGroup(){
 		});
 
 		let object = helperObject.object;
-		object.scale.x = object.scale.x * old_group.scale.x;
-		object.scale.y = object.scale.y * old_group.scale.y;
-		object.scale.z = object.scale.z * old_group.scale.z;
 
 		object.position.x += old_group.position.x;
 		object.position.y += old_group.position.y;
@@ -462,27 +459,94 @@ function exportPNG() {
 	a.click();
 }
 
-export function alignLetters(){
-	let total_length = splineHelperObjects.length - 1;
-	let position = total_length * -15;
+export function alignLetters(orientation){
+	// check if group
+	let total_length = 0;
+	let position = 0;
+	let letters = [];
+	if (transformingGroup){
+		document.querySelectorAll('.in_group').forEach((scene_character)=>{
+			let helperObject = splineHelperObjects.filter((splineHelperObject) => {
+				return splineHelperObject.object.name == scene_character.id
+			})[0];
+			letters.push(helperObject);
+		});
+		total_length = document.querySelectorAll('.in_group').length;
+	} else {
+		total_length = splineHelperObjects.length - 1;
+		letters = splineHelperObjects;
+	}
+	if (orientation == 'horizontal'){
+		position = total_length * -15;
+		letters.forEach((letter) => {
+			let object = letter.object;
 
-	splineHelperObjects.forEach((splineHelperObject) => {
-		
-		let object = splineHelperObject.object;
-		object.position.x = position;
-		object.position.y = 0;
-		object.position.z = 0;
-		
-		object.rotation.x = 0;
-		object.rotation.y = 0;
-		object.rotation.z = 0;
-		
-		object.scale.x = 1;
-		object.scale.y = 1;
-		object.scale.z = 1;
+			object.position.x = position;
+			object.position.y = 0;
+			object.position.z = 0;
+			
+			object.rotation.x = 0;
+			object.rotation.y = 0;
+			object.rotation.z = 0;
+			
+			object.scale.x = 1;
+			object.scale.y = 1;
+			object.scale.z = 1;
 
-    position += 30;
-	});
+			position += 30;
+		});
+	} else if (orientation == 'vertical'){
+		position = total_length * 20;
+		letters.forEach((letter) => {
+			let object = letter.object;
+			object.position.x = 0;
+			object.position.y = position;
+			object.position.z = 0;
+			
+			object.rotation.x = 0;
+			object.rotation.y = 0;
+			object.rotation.z = 0;
+			
+			object.scale.x = 1;
+			object.scale.y = 1;
+			object.scale.z = 1;
+
+			position -= 40;
+		});
+	} else if (orientation == 'grid'){
+		if (total_length <= 1){
+			return;
+		} else if (total_length == 2){
+			alignLetters('horizontal');
+		} else {
+			let height = Math.ceil(Math.sqrt(total_length));
+			let width = Math.ceil(total_length / height);
+			let start_x = (width - 1) * -15;
+			let start_y = height * 20;
+			let position = [start_x, start_y];
+			letters.forEach((letter, index) => {
+				let object = letter.object;
+				object.position.x = position[0];
+				object.position.y = position[1];
+				object.position.z = 0;
+				
+				object.rotation.x = 0;
+				object.rotation.y = 0;
+				object.rotation.z = 0;
+				
+				object.scale.x = 1;
+				object.scale.y = 1;
+				object.scale.z = 1;
+
+				if ((index + 1) % width == 0){
+					position[0] = start_x;
+					position[1] -= 40;
+				} else {
+					position[0] += 30;
+				}
+			});
+		}
+	}
 }
 
 function calcLetterPosition(length, index){

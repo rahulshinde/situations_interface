@@ -198,6 +198,23 @@ html,body{
 	transition: background-color ease 0.2s, box-shadow ease 0.2s, border ease 0.2s;
 }
 
+.alignment{
+	display: flex;
+	justify-content: space-between;
+}
+
+.button.align_button{
+	display: block;
+	width: 25%;
+	border-radius: 50%;
+	box-sizing: border-box;
+}
+
+.button img{
+	display: block;
+	width: 100%;
+}
+
 .button.selected{
 	background-color: var(--yellow);
 	border-color: var(--yellow);

@@ -24,7 +24,15 @@ export function initUi(){
 
 	document.getElementById('upload').addEventListener('change', readUrl);
 	document.getElementById('remove_group').addEventListener('click', clearTransformGroup)
-	document.getElementById('align_letters').addEventListener('click', alignLetters);
+	document.getElementById('align_letters').addEventListener('click', function(){
+		alignLetters('horizontal')
+	});
+	document.getElementById('align_letters_v').addEventListener('click', function(){
+		alignLetters('vertical')
+	});
+	document.getElementById('align_letters_grid').addEventListener('click', function(){
+		alignLetters('grid')
+	});
 
 	document.getElementById('width').addEventListener('change', updateSplineWidth);
 	document.getElementById('toggle_tether').addEventListener('click', toggleTether);
@@ -213,16 +221,21 @@ function toggleTether(){
 	}
 }
 
-function alignLetters(){
-	sceneBuilder.alignLetters();
+function alignLetters(orientation){
+	console.log(orientation);
+	sceneBuilder.alignLetters(orientation);
 }
 
 export function enableAlignButton(){
 	document.getElementById('align_letters').removeAttribute('disabled');
+	document.getElementById('align_letters_v').removeAttribute('disabled');
+	document.getElementById('align_letters_grid').removeAttribute('disabled');
 }
 
 export function disableAlignButton(){
 	document.getElementById('align_letters').setAttribute('disabled', '');
+	document.getElementById('align_letters_v').setAttribute('disabled', '');
+	document.getElementById('align_letters_grid').setAttribute('disabled', '');
 }
 
 export function updateTransformValues(object){
@@ -230,8 +243,6 @@ export function updateTransformValues(object){
 	let position = object.position;
 	let rotation = object.rotation;
 	let scale = object.scale;
-
-	console.log(id);
 
 	let character_position = document.getElementById(id).querySelector('.character_position');
 	let character_rotation = document.getElementById(id).querySelector('.character_rotation');
