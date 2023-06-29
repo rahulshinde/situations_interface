@@ -458,10 +458,18 @@ function saveString( text, filename ) {
 function exportPNG() {
 	// download file
 	var a = document.createElement('a');
+
+	camera.aspect = (window.innerWidth * 2) / (window.innerHeight * 2);
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( window.innerWidth * 2, window.innerHeight * 2);
 	render();
+
 	a.href = renderer.domElement.toDataURL().replace("image/png", "image/octet-stream");
 	a.download = 'situation-export.png'
 	a.click();
+
+	onWindowResize();
 }
 
 export function alignLetters(orientation){
