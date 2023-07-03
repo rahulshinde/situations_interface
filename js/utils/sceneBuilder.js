@@ -252,7 +252,7 @@ export function addObjectToTransformControlsGroup(scene_character_id){
 
 
 	let old_group = scene.getObjectByName('transformGroup');
-	let group = new THREE.Object3D();
+	let group = new THREE.Group();
 	if (old_group){
 		group = old_group
 	}
@@ -273,7 +273,7 @@ export function addObjectToTransformControlsGroup(scene_character_id){
 		scene.add(group);
 	}
 
-	group.attach(object)
+	group.add(object)
 
 	transformingGroup = true;
 	ui.setTransformMode(transformControl, 'translate');
@@ -289,12 +289,13 @@ export function removeObjectFromTransformControlsGroup(scene_character_id, rende
 		let object = old_group.children.filter((object)=>{
 			return object.name == scene_character_id
 		})[0];
+			console.log(object);
 			old_group.remove(object);
 			scene.add(object);
 
-			object.scale.x = object.scale.x * old_group.scale.x;
-			object.scale.y = object.scale.y * old_group.scale.y;
-			object.scale.z = object.scale.z * old_group.scale.z;
+			object.scale.x = old_group.scale.x;
+			object.scale.y = old_group.scale.y;
+			object.scale.z = old_group.scale.z;
 			
 			object.position.x += old_group.position.x;
 			object.position.y += old_group.position.y;
@@ -339,7 +340,7 @@ export function removeTransformControlsGroup(){
 		})[0];
 
 
-		let groupObject = old_group.children[0].children[index];
+		let groupObject = old_group;
 
 
 		helperObject.mesh.forEach((mesh) => {
@@ -347,15 +348,23 @@ export function removeTransformControlsGroup(){
 		});
 
 		let object = helperObject.object;
+		
+		groupObject.children[0].children[index].updateMatrixWorld();
+		
+		// object.position.x += groupObject.position.x;
+		// object.position.y += groupObject.position.y;
+		// object.position.z += groupObject.position.z;
+		
+		let position = new THREE.Vector3(); // create one and reuse it
+		let quaternion = new THREE.Quaternion();
+		let scale = new THREE.Vector3();
 
-		object.position.x = groupObject.position.x;
-		object.position.y = groupObject.position.y;
-		object.position.z = groupObject.position.z;
-
-		object.rotation.x = groupObject.rotation.x;
-		object.rotation.y = groupObject.rotation.y;
-		object.rotation.z = groupObject.rotation.z;
-
+		groupObject.children[0].children[index].matrixWorld.decompose( position, quaternion, scale );
+		console.log(position);
+		object.position.x = position.x;
+		object.position.y = position.y;
+		object.position.z = position.z;
+		object.setRotationFromQuaternion(quaternion);
 
 		scene.add(object);
 	});
@@ -559,6 +568,12 @@ export function alignLetters(orientation){
 				}
 			});
 		}
+	}
+
+	if (splineHelperObjects.length > 0){
+		splineHelperObjects.forEach((splineHelperObject) => {
+			ui.updateTransformValues(splineHelperObject.object);
+		});
 	}
 }
 
