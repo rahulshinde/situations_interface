@@ -5,6 +5,7 @@
 	--ui_padding: 0.5rem;
 	--button_padding: 0.25rem;
 	--s_font_size: 1rem;
+	--xs_font_size: 0.65rem;
 
   /* Colors	*/
 	--transparent_white: rgba(255, 255, 255, 0.45);
@@ -154,15 +155,26 @@ html,body{
 }
 
 .delete_character{
-	right: 0;
+	right: 3.5rem;
 	color: #f00;
 }
 
+.delete_character:after{
+	content: 'delete';
+	position: absolute;
+	left: calc(100%);
+	top: 0.35rem;
+	white-space: nowrap;
+	font-size: var(--xs_font_size);
+	color: #000;
+}
+
 .group_button{
-	right: 2rem;
+	left: 40%;
 	width: 1rem;
 	height: 1rem;
-	top: 0.5rem;
+	top: 0.25rem;
+	box-sizing: border-box;
 	border-radius: 50%;
 	transition: box-shadow ease 0.2s;
 }
@@ -174,6 +186,28 @@ html,body{
 
 .group_select{
 	border: 1px solid #00f;
+}
+
+.group_select:before,
+.group_deselect:before{
+	position: absolute;
+	left: calc(100% + 0.5rem);
+	white-space: nowrap;
+	font-size: var(--xs_font_size);
+}
+
+.in_group .group_select:before{
+	display: none;
+}
+
+.group_select:before{
+	top: 0.15rem;
+	content: 'group';
+}
+
+.group_deselect:before{
+	top: 0.25rem;
+	content: 'un-group';
 }
 
 .group_select:hover{
@@ -203,6 +237,7 @@ html,body{
 	justify-content: space-between;
 	position: sticky;
 	top: 5.5rem;
+	margin-top: 0.5rem;
 }
 
 .group .align_button{
@@ -354,7 +389,7 @@ h2{
 	flex-direction: column;
 	left: var(--margin);
 	top: var(--margin);
-	width: 15rem;
+	width: 20rem;
 	max-height: 40vh;
 	box-sizing: border-box;
 }
@@ -407,7 +442,7 @@ h2{
 	display: flex;
 	flex-wrap: wrap;
 	margin-top: var(--margin_bottom);
-	font-size: 0.65rem;
+	font-size: var(--xs_font_size);
 }
 
 .character_coordinates_wrapper > div:not(.character_label){

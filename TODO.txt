@@ -2,11 +2,13 @@
 [x] update link to go straight to situations page 
 [x] increase png export to 3x 
 
-[ ] add labels to group + clear buttons
-[ ] change circle to check mark
-[ ] possibly add onboarding?
-	[ ] ask rush abt software for creating presentations w/ web records
+[x] add labels to group + clear buttons
+[x] change circle to check mark
+
 [ ] add in loading
 [ ] try to finess width on live objects (all objects at once)
+
+[ ] possibly add onboarding?
+	[ ] ask rush abt software for creating presentations w/ web records
 
 [ ] render full mesh information in terminal?
