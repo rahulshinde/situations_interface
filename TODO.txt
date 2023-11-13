@@ -1,0 +1,13 @@
+[ ] check out color change that happened
+[ ] add labels to group + clear buttons
+[ ] change circle to check mark
+[ ] possibly add onboarding?
+	[ ] ask rush abt software for creating presentations w/ web records
+[ ] add in loading
+[ ] try to finess width on live objects (all objects at once)
+
+[ ] render full mesh information in terminal?
+
+[ ] update link to go straight to situations page 
+
+[ ] increase png export to 3x 

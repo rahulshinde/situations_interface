@@ -58,20 +58,25 @@ export function initScene(){
 	cameraControls.update();
 	cameraControls.addEventListener( 'change', render );
 
-	const light = new THREE.DirectionalLight( 0xffffff, 0.75 ); // soft white light
+	const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white ambientLight
+	scene.add( ambientLight );
+
+	const sphere = new THREE.SphereGeometry( 0.5, 16, 8 );
+
+	const light = new THREE.DirectionalLight( 0xffffff, 1 ); // soft white light
 	light.position.z = 50;
 	light.position.y = 50;
 	scene.add( light );
 
-	const light1 = new THREE.PointLight( 0xffe438, 1, 0 );
-	// light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xf4bd82 } ) ) );
-	light1.position.set( 200, 40, 40 );
+	const light1 = new THREE.DirectionalLight( 0xffe438, 2 );
+	// light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffe438 } ) ) );
+	light1.position.set( 50, 0, 40 );
 
 	scene.add( light1 );
 
-	const light2 = new THREE.PointLight( 0xffe438, 1, 0 );
-	// light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xf4bd82 } ) ) );
-	light1.position.set( -100, -40, -40 );
+	const light2 = new THREE.DirectionalLight( 0xffe438, 2 );
+	// light2.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffe438 } ) ) );
+	light2.position.set( -50, 0, -40 );
 
 	scene.add( light2 );
 
