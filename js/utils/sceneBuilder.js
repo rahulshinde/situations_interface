@@ -473,10 +473,10 @@ function exportPNG() {
 	// download file
 	var a = document.createElement('a');
 
-	camera.aspect = (window.innerWidth * 2) / (window.innerHeight * 2);
+	camera.aspect = (window.innerWidth * 3) / (window.innerHeight * 3);
 	camera.updateProjectionMatrix();
 
-	renderer.setSize( window.innerWidth * 2, window.innerHeight * 2);
+	renderer.setSize( window.innerWidth * 3, window.innerHeight * 3);
 	render();
 
 	a.href = renderer.domElement.toDataURL().replace("image/png", "image/octet-stream");

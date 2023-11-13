@@ -1,4 +1,7 @@
-[ ] check out color change that happened
+[x] check out color change that happened
+[x] update link to go straight to situations page 
+[x] increase png export to 3x 
+
 [ ] add labels to group + clear buttons
 [ ] change circle to check mark
 [ ] possibly add onboarding?
@@ -7,7 +10,3 @@
 [ ] try to finess width on live objects (all objects at once)
 
 [ ] render full mesh information in terminal?
-
-[ ] update link to go straight to situations page 
-
-[ ] increase png export to 3x 
