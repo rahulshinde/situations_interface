@@ -3,7 +3,7 @@
 [x] increase png export to 3x 
 
 [x] add labels to group + clear buttons
-[x] change circle to check mark
+[-] change circle to check mark (wanted to check in abt this now that the labels are added)
 
 [ ] add in loading
 [ ] try to finess width on live objects (all objects at once)
