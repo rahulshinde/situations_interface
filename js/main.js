@@ -18,4 +18,4 @@ function loading(){
 	}
 }
 
-setTimeout(loading, 1000);
+setTimeout(loading, 1250);
