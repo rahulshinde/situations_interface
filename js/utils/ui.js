@@ -263,12 +263,13 @@ export function updateTransformValues(object){
 
 export function dismissInfo(){
 	document.body.classList.add('info_hidden');
-	currentSlide = 0;
-	revealUi(0, 'next');
 }
 
 export function showInfo(){
 	document.body.classList.remove('info_hidden');
+	setTimeout(()=>{
+		playSlide(0, 'next');
+	}, 1000);
 }
 
 const slides = [

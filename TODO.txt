@@ -11,6 +11,5 @@
 [x] possibly add onboarding?
 	[x] ask rush abt software for creating presentations w/ web records
 	[x] add in info modal overlay
-	[] cache decision to dismiss in cookie
 
 [ ] render full mesh information in terminal?
