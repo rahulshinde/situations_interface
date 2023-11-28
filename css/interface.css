@@ -120,6 +120,55 @@ html,body{
 
 }
 
+#info_slideshow{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 28rem;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+#info_slideshow nav{
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#slide_controls{
+	display: flex;
+	align-items: center;
+}
+
+#slide_controls .button{
+	margin-left: calc(var(--margin)/2);
+}
+
+#slide_content{
+	width: 100%;
+	height: 5rem;
+}
+
+#info_slideshow .button{
+	margin-bottom: 0;
+}
+
+#show_info{
+	position: fixed;
+	bottom: var(--margin);
+	right: var(--margin);
+	border-radius: 50%;
+	width: 4rem;
+	height: 4rem;
+	font-family: 'FT88-Regular', monospace;
+	cursor: pointer;
+}
+
 #background{
 	position: fixed;
 	top: 0;
@@ -140,12 +189,24 @@ html,body{
 }
 
 .tethering .ui:not(#character_controls):not(#general_controls){
-	opacity: 0.5;
-	filter: blur(8px);
+	opacity: 0.33;
+	filter: blur(2px);
 	pointer-events: none;
 }
 
-.loaded .ui{
+.loaded:not(.info_hidden) #info_slideshow.ui{
+	opacity: 1;
+	filter: blur(0px);
+	pointer-events: auto;
+}
+
+.loaded .ui:not(#info_slideshow){
+	opacity: 0.33;
+	filter: blur(2px);
+
+}
+
+.loaded.info_hidden .ui:not(#info_slideshow){
 	opacity: 1;
 	filter: blur(0px);
 }
@@ -153,15 +214,21 @@ html,body{
 .ui{
 	position: fixed;
 	background-color: var(--transparent_white);
-	backdrop-filter: blur(8px);
+	backdrop-filter: blur(2px);
 	padding: var(--ui_padding);
 	box-shadow: var(--box_shadow);
 	border-radius: var(--border_radius);
 	box-sizing: border-box;
-	filter: blur(8px);
+	filter: blur(2px);
 	opacity: 0;
 	z-index: 100;
 	transition: transform ease-in var(--transition_time), opacity ease-in var(--transition_time) var(--transition_time), filter ease-in var(--transition_time) var(--transition_time);
+}
+
+.ui.show{
+	opacity: 1 !important;
+	filter: blur(0px) !important;
+	pointer-events: none;
 }
 
 .ui.minimized{
@@ -525,6 +592,7 @@ h2{
 }
 
 #background_controls{
+	width: calc(16rem - var(--margin));
 	top: calc(100% - 20rem - var(--margin));
 	left: calc(100% - 20rem - var(--margin));
 }

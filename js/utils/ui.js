@@ -37,11 +37,18 @@ export function initUi(){
 	document.getElementById('width').addEventListener('change', updateSplineWidth);
 	document.getElementById('toggle_tether').addEventListener('click', toggleTether);
 
+	document.getElementById('dismiss_info').addEventListener('click', dismissInfo);
+	document.getElementById('show_info').addEventListener('click', showInfo);
+
 	updateSplineWidth();
 
 	// random number between 1 and 6
 	let random = Math.floor(Math.random() * 6) + 1;
 	setBackground(random);
+
+	// prev slide next slide 
+	document.getElementById('prev_slide').addEventListener('click', previousSlide);
+	document.getElementById('next_slide').addEventListener('click', nextSlide);
 }
 
 export function createUiCharacterControl(character, name){
@@ -252,4 +259,108 @@ export function updateTransformValues(object){
 	character_position.innerHTML = `${position.x.toFixed(2)}, ${position.y.toFixed(2)}, ${position.z.toFixed(2)}`;
 	character_rotation.innerHTML = `${rotation.x.toFixed(2)}, ${rotation.y.toFixed(2)}, ${rotation.z.toFixed(2)}`;
 	character_scale.innerHTML = `${scale.x.toFixed(2)}, ${scale.y.toFixed(2)}, ${scale.z.toFixed(2)}`;
+}
+
+export function dismissInfo(){
+	document.body.classList.add('info_hidden');
+	currentSlide = 0;
+	revealUi(0, 'next');
+}
+
+export function showInfo(){
+	document.body.classList.remove('info_hidden');
+}
+
+const slides = [
+	'Welcome... This type tool is meant to set short words or phrases in three dimensional space.',
+	'\'Character Select\': Add characters to the scene.',
+	'\'Scene Characters\': Contains active characters in scene, also houses group controls.',
+	'\'Transform Controls\': Adjust which transform control you are using, keyboard shortcut indicated in \'()\'.',
+	'Note: Hovering over a character will reveal its transform controls.',
+	'Note: Characters can be grouped together by command clicking on them in the scene, or through the \'Scene Characters\' panel.',
+	'\'Character Controls\': Adjust character width or add tethers.',
+	'\'Background\': Select from available presets or upload from your computer.',
+	'\'General Controls\': Scene export and grid options. Pngs are exported at 300dpi for print purposes.',
+]
+
+let currentSlide = 0;
+
+let isPlayingSlide = false;
+
+let currentTimeout;
+
+export function playSlide(index, direction) {
+	let info = document.getElementById('slide_content');
+	// Clear the previous timeout
+	if (isPlayingSlide){
+		clearTimeout(currentTimeout);
+		if (direction == 'next'){
+			currentSlide = index - 1;
+		} else{
+			currentSlide = index + 1;
+		}
+		info.innerHTML = slides[currentSlide];
+		isPlayingSlide = false;
+		return
+	}
+	
+	// type out slides[index] to the info panel
+	let text = slides[index];
+	let i = 0;
+	let speed = 20;
+	info.innerHTML = '';
+
+	function typeWriter() {
+		isPlayingSlide = true;
+		if (i < text.length) {
+			info.innerHTML += text.charAt(i);
+			i++;
+			currentTimeout = setTimeout(typeWriter, speed);
+		} else{
+			isPlayingSlide = false;
+		
+		}
+	}
+
+	typeWriter();
+	currentSlide = index;
+	revealUi(currentSlide, direction);
+	document.getElementById('current_slide').innerHTML = `${index + 1}`;
+}
+
+function revealUi(index, direction){
+	document.querySelectorAll('.ui').forEach((ui) => {
+		ui.classList.remove('show');
+	});
+	if (index == 1){
+		document.getElementById('character_select_container').classList.add('show'); 
+	} else if (index == 2){
+		document.getElementById('scene_characters').classList.add('show');
+	} else if (index == 3){
+		document.getElementById('transform_controls').classList.add('show');
+	}else if (index == 6){
+		document.getElementById('character_controls').classList.add('show');
+	}else if (index == 7){
+		document.getElementById('background_controls').classList.add('show');
+	}else if (index == 8){
+		document.getElementById('general_controls').classList.add('show');
+	}
+}
+
+function previousSlide(){
+	if (currentSlide > 0){
+		currentSlide--;	
+	} else {
+		currentSlide = slides.length - 1;
+	}
+	playSlide(currentSlide, 'prev');
+}
+
+function nextSlide(){
+	if (currentSlide < slides.length - 1){
+		currentSlide++;
+	} else {
+		currentSlide = 0;
+	}
+	playSlide(currentSlide, 'next');
 }

@@ -1,5 +1,5 @@
 $( function() {
-  $( ".ui" ).draggable({ handle: ".ui_header" });
+  $( ".ui:not(.no_controls)" ).draggable({ handle: ".ui_header" });
 
   document.querySelectorAll('.minimize').forEach((minimizeButton)=>{
     minimizeButton.addEventListener('click', toggleMinimize)

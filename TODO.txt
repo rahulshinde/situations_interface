@@ -2,13 +2,15 @@
 [x] update link to go straight to situations page 
 [x] increase png export to 3x 
 
+[x] add in loading
 [x] add labels to group + clear buttons
 [-] change circle to check mark (wanted to check in abt this now that the labels are added)
 
-[ ] add in loading
 [ ] try to finess width on live objects (all objects at once)
 
-[ ] possibly add onboarding?
-	[ ] ask rush abt software for creating presentations w/ web records
+[x] possibly add onboarding?
+	[x] ask rush abt software for creating presentations w/ web records
+	[x] add in info modal overlay
+	[] cache decision to dismiss in cookie
 
 [ ] render full mesh information in terminal?

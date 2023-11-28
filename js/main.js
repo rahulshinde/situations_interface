@@ -6,6 +6,9 @@ import * as ui from './utils/ui.js'
 function init(){
 	sceneBuilder.initScene();
 	ui.initUi();
+	setTimeout(()=>{
+		ui.playSlide(0);
+	}, 1000);
 	// interfaceEventHandlers();
 }
 

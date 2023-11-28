@@ -8,6 +8,23 @@
 </head>
 <body>
 
+	<section id="info_slideshow" class="ui no_controls vertical">
+		<header class="ui_header">
+			<h2>?</h2>
+		</header>
+		<div id="slide_content">
+
+		</div>
+		<nav>
+			<button class="button" id="dismiss_info">Dismiss</button>
+			<div id="slide_controls">
+				<div><span id="current_slide">1</span>/9</div>
+				<button class="button disabled" id="prev_slide"><</button>
+				<button class="button" id="next_slide">></button>
+			</div>
+		</nav>
+	</section>
+
 	<section class='ui' id='character_select_container'>
 		<header class="ui_header">
 			<h2>Character Select</h2>
@@ -147,7 +164,7 @@
 
 	<section class='ui' id='scene_characters'>
 		<header class="ui_header">
-			<h2>Characters in Scene</h2>
+			<h2>Scene Characters</h2>
 			<button class="button minimize" @click="toggleMinimize()">-</button>
 		</header>
 		<button class='button' disabled id='remove_group'>Clear Group</button>
@@ -232,7 +249,7 @@
 		</div>
 		<button class='button' id='remove_image'>Clear Image</button>
 
-		<h2>Background image style</h2>
+		<h2>Background Style</h2>
 		<button class='button selected background_image_style' id='cover'>
 			Full Bleed
 		</button>
@@ -275,6 +292,8 @@
 	<img id='background' src="">
 
 	<section id='canvas_container'></section>
+
+	<button class="ui" id="show_info">?</button>
 
 	<section id="loading">Loading<span>.</span><span>.</span><span>.</span></section>
 
