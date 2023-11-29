@@ -284,7 +284,7 @@ const slides = [
 	'\'Scene Characters\': Contains active characters in scene, also houses group controls.',
 	'\'Transform Controls\': Adjust which transform control you are using, keyboard shortcut indicated in \'()\'.',
 	'Note: Hovering over a character will reveal its transform controls.',
-	'Note: Characters can be grouped together by command clicking on them in the scene, or through the \'Scene Characters\' panel.',
+	'Note: Characters can be grouped together by shift clicking on them in the scene, or through the \'Scene Characters\' panel.',
 	'\'Character Controls\': Adjust character width or add tethers.',
 	'\'Background\': Select from available presets or upload from your computer.',
 	'\'General Controls\': Scene export and grid options. Pngs are exported at 300dpi for print purposes.',
