@@ -6,10 +6,11 @@
 [x] add labels to group + clear buttons
 [-] change circle to check mark (wanted to check in abt this now that the labels are added)
 
-[ ] try to finess width on live objects (all objects at once)
-
 [x] possibly add onboarding?
 	[x] ask rush abt software for creating presentations w/ web records
 	[x] add in info modal overlay
 
+[x] ui hide button
+
 [ ] render full mesh information in terminal?
+[ ] try to finess width on live objects (all objects at once)
