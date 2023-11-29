@@ -142,6 +142,8 @@ function rebuildScene(){
 		splineHelperObject.object.scale.x = old_letter.object.scale.x;
 		splineHelperObject.object.scale.y = old_letter.object.scale.y;
 		splineHelperObject.object.scale.z = old_letter.object.scale.z;
+
+		ui.updateTransformValues(splineHelperObject.object);
 	})
 
 	render();
