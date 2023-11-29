@@ -212,8 +212,8 @@ html,body{
 }
 
 .loaded.info_hidden.ui_hidden .ui:not(#show_ui){
-	opacity: 0;
-	filter: blur(2px);
+	opacity: 0 !important;
+	filter: blur(2px) !important;
 	pointer-events: none;
 }
 
