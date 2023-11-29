@@ -211,6 +211,12 @@ html,body{
 	filter: blur(0px);
 }
 
+.loaded.info_hidden.ui_hidden .ui:not(#show_ui){
+	opacity: 0;
+	filter: blur(2px);
+	pointer-events: none;
+}
+
 .ui{
 	position: fixed;
 	background-color: var(--transparent_white);
@@ -582,8 +588,26 @@ h2{
 }
 
 #general_controls{
-	top: calc(100% - 10rem - var(--margin));
+	top: calc(100% - 12.31rem - var(--margin));
 	left: var(--margin);
+}
+
+.ui_hidden #show_ui{
+	opacity: 1;
+}
+
+.ui#show_ui{
+	display: none;
+	position: fixed;
+	bottom: var(--margin);
+	left: var(--margin);
+	border-radius: 50%;
+	width: 4rem;
+	height: 4rem;
+	font-family: 'FT88-Regular', monospace;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity ease var(--transition_time) !important; 
 }
 
 #transform_controls{

@@ -21,6 +21,8 @@ export function initUi(){
 
 	document.getElementById('remove_image').addEventListener('click', clearBackgroundImage);
 	document.getElementById('toggle_grid').addEventListener('click', sceneBuilder.toggleGrid);
+	document.getElementById('hide_ui').addEventListener('click', hideUI);
+	document.getElementById('show_ui').addEventListener('click', undoHiddenUI);
 
 	document.getElementById('upload').addEventListener('change', readUrl);
 	document.getElementById('remove_group').addEventListener('click', clearTransformGroup)
@@ -346,6 +348,26 @@ function revealUi(index, direction){
 	}else if (index == 8){
 		document.getElementById('general_controls').classList.add('show');
 	}
+}
+
+function hideUI(){
+	document.body.classList.add('ui_hidden');
+	document.getElementById('show_ui').style.display = 'block';
+	document.getElementById('show_ui').style.opacity = '0';
+
+	setTimeout(() => {
+		document.getElementById('show_ui').style.opacity = '1';
+	}, 1000);
+}
+
+function undoHiddenUI(){
+	document.getElementById('show_ui').style.opacity = '0';
+	setTimeout(() => {
+		document.body.classList.remove('ui_hidden');
+		setTimeout(() => {
+			document.getElementById('show_ui').style.display = 'none';
+		}, 500);
+	}, 100);
 }
 
 function previousSlide(){
