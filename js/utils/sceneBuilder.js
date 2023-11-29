@@ -112,6 +112,41 @@ export function initScene(){
 
 export function updateSplineWidth(width){
 	splineWidth = width;
+	rebuildScene();
+}
+
+function rebuildScene(){
+	// remove all letters
+	// then add them back with new width
+	let old_letters = splineHelperObjects;
+	let characters = [];
+	document.querySelectorAll('.scene_character').forEach((scene_character)=>{
+		characters.push(scene_character.querySelector('.character_span').innerHTML);
+		scene_character.remove();
+		deleteLetter(scene_character);
+	});
+
+	characters.forEach((character)=>{
+		addLetter(character);
+	});
+
+	splineHelperObjects.forEach((splineHelperObject, index) => {
+		// update position of letters with old letter position
+		let old_letter = old_letters[index]
+		splineHelperObject.object.position.x = old_letter.object.position.x;
+		splineHelperObject.object.position.y = old_letter.object.position.y;
+		splineHelperObject.object.position.z = old_letter.object.position.z;
+		splineHelperObject.object.rotation.x = old_letter.object.rotation.x;
+		splineHelperObject.object.rotation.y = old_letter.object.rotation.y;
+		splineHelperObject.object.rotation.z = old_letter.object.rotation.z;
+		splineHelperObject.object.scale.x = old_letter.object.scale.x;
+		splineHelperObject.object.scale.y = old_letter.object.scale.y;
+		splineHelperObject.object.scale.z = old_letter.object.scale.z;
+	})
+
+	render();
+	
+
 }
 
 export function addLetter(letter){

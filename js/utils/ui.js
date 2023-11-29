@@ -57,7 +57,11 @@ export function createUiCharacterControl(character, name){
 	let div = document.createElement("div");
   div.id = name;
   div.className = "scene_character";
-  div.innerHTML = character
+
+	let span = document.createElement("span");
+	span.innerHTML = character;
+	span.className = 'character_span'
+	div.appendChild(span);
 	
 	let button = document.createElement("button");
 	button.className = 'delete_character character_button'
