@@ -188,7 +188,7 @@ html,body{
 	text-align: center;
 }
 
-.tethering .ui:not(#character_controls):not(#general_controls){
+.tethering .ui:not(#character_controls):not(#general_controls):not(#info_slideshow){
 	opacity: 0.33;
 	filter: blur(2px);
 	pointer-events: none;
