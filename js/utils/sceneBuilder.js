@@ -194,7 +194,9 @@ export function addLetter(letter, width = null){
 		'exit': [new_letter.exit1, new_letter.exit2],
 		'mesh': mergeMesh.getChildMeshes(new_letter.object)
 	});
-	ui.enableAlignButton();
+	if (splineHelperObjects.length > 1){
+		ui.enableAlignButton();
+	}
 	render();
 }
 
