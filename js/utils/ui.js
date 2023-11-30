@@ -285,7 +285,8 @@ const slides = [
 	'\'Transform Controls\': Adjust which transform control you are using, keyboard shortcut indicated in \'()\'.',
 	'Note: Hovering over a character will reveal its transform controls.',
 	'Note: Characters can be grouped together by shift clicking on them in the scene, or through the \'Scene Characters\' panel.',
-	'\'Character Controls\': Adjust character width or add tethers.',
+	'\'Character Controls\': Adjust incoming character width or add tethers.',
+	'Note: Characters already in the scene must be grouped to adjust their width.',
 	'\'Background\': Select from available presets or upload from your computer.',
 	'\'General Controls\': Scene export and grid options. Pngs are exported at 300dpi for print purposes.',
 ]
@@ -299,12 +300,22 @@ let currentTimeout;
 export function playSlide(index, direction) {
 	let info = document.getElementById('slide_content');
 	// Clear the previous timeout
+
 	if (isPlayingSlide){
 		clearTimeout(currentTimeout);
+		
 		if (direction == 'next'){
-			currentSlide = index - 1;
-		} else{
-			currentSlide = index + 1;
+			if (currentSlide == 0){
+				currentSlide = slides.length - 1;
+			} else {
+				currentSlide = index - 1;
+			}
+		} else if (direction == 'prev'){
+			if (currentSlide == slides.length - 1){
+				currentSlide = 0;
+			} else {
+				currentSlide = index + 1;
+			}
 		}
 		info.innerHTML = slides[currentSlide];
 		isPlayingSlide = false;
@@ -332,7 +343,7 @@ export function playSlide(index, direction) {
 	typeWriter();
 	currentSlide = index;
 	revealUi(currentSlide, direction);
-	document.getElementById('current_slide').innerHTML = `${index + 1}`;
+	document.getElementById('current_slide').innerHTML = `${index < 9 ? 0 : ''}${index + 1}`;
 }
 
 function revealUi(index, direction){
@@ -347,9 +358,9 @@ function revealUi(index, direction){
 		document.getElementById('transform_controls').classList.add('show');
 	}else if (index == 6){
 		document.getElementById('character_controls').classList.add('show');
-	}else if (index == 7){
-		document.getElementById('background_controls').classList.add('show');
 	}else if (index == 8){
+		document.getElementById('background_controls').classList.add('show');
+	}else if (index == 9){
 		document.getElementById('general_controls').classList.add('show');
 	}
 }
