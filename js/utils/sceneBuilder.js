@@ -112,7 +112,10 @@ export function initScene(){
 
 export function updateSplineWidth(width){
 	splineWidth = width;
-	rebuildScene();
+	// group
+	if (transformingGroup){
+		rebuildScene();
+	}
 }
 
 function rebuildScene(){
@@ -121,15 +124,31 @@ function rebuildScene(){
 	let old_letters = splineHelperObjects;
 	let characters = [];
 	document.querySelectorAll('.scene_character').forEach((scene_character)=>{
-		characters.push(scene_character.querySelector('.character_span').innerHTML);
+		let letter = scene_character.querySelector('.character_span').innerHTML;
+		let in_group = scene_character.classList.contains('in_group');
+		let id = scene_character.id;
+		// get old letter width
+		let old_letter = old_letters.filter((old_letter) => {
+			return old_letter.object.name == id
+		})[0];
+		let width = old_letter.width;
+		characters.push({
+			'letter': letter, 
+			'in_group': in_group,
+			'width': width
+		});
 		scene_character.remove();
 		deleteLetter(scene_character);
 	});
 
 	characters.forEach((character)=>{
-		addLetter(character);
+		let width = character['width'];
+		if (character['in_group']){
+			width = splineWidth;
+		}
+		addLetter(character['letter'], width);
 	});
-
+	
 	splineHelperObjects.forEach((splineHelperObject, index) => {
 		// update position of letters with old letter position
 		let old_letter = old_letters[index]
@@ -142,17 +161,26 @@ function rebuildScene(){
 		splineHelperObject.object.scale.x = old_letter.object.scale.x;
 		splineHelperObject.object.scale.y = old_letter.object.scale.y;
 		splineHelperObject.object.scale.z = old_letter.object.scale.z;
+		
+		if (characters[index]['in_group']){
+			// apply transform group position and rotation
+			let group = scene.getObjectByName('transformGroup');
+			splineHelperObject.object.position.x += group.position.x;
+			splineHelperObject.object.position.y += group.position.y;
+			splineHelperObject.object.position.z += group.position.z;
 
+			splineHelperObject.object.rotation.x += group.rotation.x;
+			splineHelperObject.object.rotation.y += group.rotation.y;
+			splineHelperObject.object.rotation.z += group.rotation.z;	
+		}
 		ui.updateTransformValues(splineHelperObject.object);
 	})
-
-	render();
-	
-
+	ui.clearTransformGroup();
 }
 
-export function addLetter(letter){
-	let new_letter = letterBuilder.constructLetter(letter, splineWidth, material);
+export function addLetter(letter, width = null){
+	width = width || splineWidth;
+	let new_letter = letterBuilder.constructLetter(letter, width, material);
 	scene.add(new_letter.object);
 	ui.createUiCharacterControl(new_letter.character, new_letter.object.name);
 
@@ -161,6 +189,7 @@ export function addLetter(letter){
 
 	splineHelperObjects.push({
 		'object': new_letter.object,
+		'width': width,
 		'enter': [new_letter.enter1, new_letter.enter2],
 		'exit': [new_letter.exit1, new_letter.exit2],
 		'mesh': mergeMesh.getChildMeshes(new_letter.object)

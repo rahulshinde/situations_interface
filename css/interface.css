@@ -590,6 +590,7 @@ h2{
 #general_controls{
 	top: calc(100% - 12.31rem - var(--margin));
 	left: var(--margin);
+	pointer-events: auto;
 }
 
 .ui_hidden #show_ui{

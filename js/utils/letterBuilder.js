@@ -96,6 +96,7 @@ export function constructLetter(letter, splineWidth, material){
 	return {
 		'object': letterObject,
 		'character': letter,
+		'width': splineWidth,
 		'enter1': letterInstance.enter1,
 		'enter2': letterInstance.enter2,
 		'exit1': letterInstance.exit1,
