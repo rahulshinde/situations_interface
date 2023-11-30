@@ -299,30 +299,19 @@ let currentTimeout;
 
 export function playSlide(index, direction) {
 	let info = document.getElementById('slide_content');
-	// Clear the previous timeout
-
+	
 	if (isPlayingSlide){
 		clearTimeout(currentTimeout);
-		
-		if (direction == 'next'){
-			if (currentSlide == 0){
-				currentSlide = slides.length - 1;
-			} else {
-				currentSlide = index - 1;
-			}
-		} else if (direction == 'prev'){
-			if (currentSlide == slides.length - 1){
-				currentSlide = 0;
-			} else {
-				currentSlide = index + 1;
-			}
+		if (direction === 'next') {
+			currentSlide = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+		} else if (direction === 'prev') {
+			currentSlide = currentSlide === slides.length - 1 ? 0 : currentSlide + 1;
 		}
 		info.innerHTML = slides[currentSlide];
 		isPlayingSlide = false;
 		return
 	}
-	
-	// type out slides[index] to the info panel
+
 	let text = slides[index];
 	let i = 0;
 	let speed = 20;
@@ -342,11 +331,11 @@ export function playSlide(index, direction) {
 
 	typeWriter();
 	currentSlide = index;
-	revealUi(currentSlide, direction);
+	revealUi(currentSlide);
 	document.getElementById('current_slide').innerHTML = `${index < 9 ? 0 : ''}${index + 1}`;
 }
 
-function revealUi(index, direction){
+function revealUi(index){
 	document.querySelectorAll('.ui').forEach((ui) => {
 		ui.classList.remove('show');
 	});
