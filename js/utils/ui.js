@@ -186,7 +186,7 @@ function setBackground(number){
 	console.log(document.querySelector(`.background_img:nth-child(1)`));
 	document.querySelector(`.background_img:nth-child(${number})`).classList.add('selected');
 	if (number <= 4){
-		background.src = `img/${number}.jpg`;
+		background.src = `/img/${number}.jpg`;
 	} else{
 		background.setAttribute('src', '')
 		if (number == 5){
