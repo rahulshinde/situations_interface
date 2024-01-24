@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 import { LetterA } from '../letters/a.js'
 import { LetterB } from '../letters/b.js'
 import { LetterC } from '../letters/c.js'
