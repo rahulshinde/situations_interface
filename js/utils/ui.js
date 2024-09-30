@@ -126,6 +126,11 @@ export function createUiCharacterControl(character, name){
 	document.getElementById('scene_characters').appendChild(div);
 }
 
+export function toggleMinimize(e){
+	let ui = e.target.parentElement.parentElement;
+	ui.classList.toggle('minimized');
+}
+
 export function disableScale(){
 	document.getElementById('scale').setAttribute('disabled', '');
 }
@@ -183,7 +188,6 @@ function setBackground(number){
 	document.querySelectorAll('.background_img').forEach((control) => {
 		control.classList.remove('selected');
 	});
-	console.log(document.querySelector(`.background_img:nth-child(1)`));
 	document.querySelector(`.background_img:nth-child(${number})`).classList.add('selected');
 	if (number <= 4){
 		background.src = `/${number}.jpg`;
