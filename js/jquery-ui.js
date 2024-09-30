@@ -1,9 +1,7 @@
 $( function() {
-  console.log('jquery-ui.js loaded')
   $( ".ui:not(.no_controls)" ).draggable({ handle: ".ui_header" });
 
   document.querySelectorAll('.minimize').forEach((minimizeButton)=>{
-    console.log(minimizeButton)
     minimizeButton.addEventListener('click', toggleMinimize)
   })
 } );
